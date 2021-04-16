@@ -1,5 +1,11 @@
 # Burner
 
+## Requirements
+
+- Implement unittest using the *coverage* library
+- Use virtual env
+- Use a file for external installations
+
 ## Challenge 1: Collecting data
 
 We want to create a historical website, in order to help
