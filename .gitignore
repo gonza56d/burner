@@ -130,4 +130,4 @@ dmypy.json
 
 # VS Code / PyCharm settings folders
 .vscode/
-.idea
+.idea/
