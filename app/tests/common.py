@@ -1,5 +1,5 @@
 # Python
-from typing import List
+from typing import Iterator
 
 
 class CommonTestsMixin:
@@ -25,30 +25,35 @@ class CommonTestsMixin:
         self.validate_sales(page_sales)
 
     def test_csv_results(self) -> None:
-        csv_results = self.page.get_result_csv()  # TODO must return a list of Sale objects
+        csv_results = self.page.get_result_csv()  # TODO must return an Interator Sale class
         self.validate_sales(csv_results)
 
-    def validate_sales(self, sales: List) -> None:
+    def validate_sales(self, sales: Iterator) -> None:
         """
         Validate common Sale objects collected data.
         """
 
         self.assertGreater(len(sales), 0, "No sales where found")
 
-        for sale in sales:
-            self.assertIsNotNone(
-                sale.product_id,
-                "Sale didn't have an ID"
-            )
-            self.assertIsNotNone(
-                sale.product_name,
-                "Sale didn't have a product name"
-            )
-            self.assertIsNotNone(
-                sale.product_category_id,
-                "Sale didn't have a product category ID"
-            )
-            self.assertIsNotNone(
-                sale.product_price,
-                "Sale didn't have a product price"
-            )
+        while True:
+            try:
+                sale = next(sales)
+
+                self.assertIsNotNone(
+                    sale.product_id,
+                    "Sale didn't have an ID"
+                )
+                self.assertIsNotNone(
+                    sale.product_name,
+                    "Sale didn't have a product name"
+                )
+                self.assertIsNotNone(
+                    sale.product_category_id,
+                    "Sale didn't have a product category ID"
+                )
+                self.assertIsNotNone(
+                    sale.product_price,
+                    "Sale didn't have a product price"
+                )
+            except StopIteration:
+                break
