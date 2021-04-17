@@ -16,6 +16,7 @@ class TestFalabellaPage(unittest.TestCase):
         categories = self.page.get_categories()
         self.assertGreater(len(categories), 0, "No categories where found")
         for category in categories:
+            self.assertIsNotNone(category.id, "Category didn't have a id")
             self.assertIsNotNone(category.name, "Category didn't have a name")
             self.assertIsNotNone(category.href, "Category didn't have an href")
 
@@ -30,4 +31,12 @@ class TestFalabellaPage(unittest.TestCase):
             self.assertIsNotNone(
                 sale.product_name,
                 "Sale didn't have a product name"
+            )
+            self.assertIsNotNone(
+                sale.product_category_id,
+                "Sale didn't have a product category"
+            )
+            self.assertIsNotNone(
+                sale.product_price,
+                "Sale didn't have a product price"
             )
