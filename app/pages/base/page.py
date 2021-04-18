@@ -49,7 +49,7 @@ class BasePage(ABC):
                 self.categories.append(
                     PageCategory(
                         page_name=self.get_page_name(),
-                        category_name=category.text,
+                        category_name=category.text.replace(' >', ''),
                         category_url=category.get_attribute('href'),
                         category_id=category.get_attribute('href').split('/')[5]
                     )
