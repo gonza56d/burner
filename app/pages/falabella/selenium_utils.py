@@ -58,7 +58,7 @@ class FalabellaSeleniumUtils:
             .move_to_element(self.furnitures_category)
         hover.perform()
 
-    def get_furnitures_categories(self) -> Generator[WebElement]:
+    def get_furnitures_categories(self) -> Generator:
         """
         Find and return a generator of furnitures nested categories web
         elements.
