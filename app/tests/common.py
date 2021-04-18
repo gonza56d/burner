@@ -9,12 +9,14 @@ class CommonTestsMixin:
     Perform the following validations:
     * Categories from page with their ID, name and href.
     * Sales from any category, with their ID, name, category ID and price.
-    * Sales from CSV result file, with their ID, name, category ID and price. 
+    * Sales from CSV result file, with their ID, name, category ID and price.
     """
 
     def test_get_categories(self) -> None:
         page_categories = self.page.get_categories()
-        self.assertGreater(len(page_categories), 0, "No categories where found")
+        self.assertGreater(
+            len(page_categories), 0, "No categories where found"
+        )
         for category in page_categories:
             self.assertIsNotNone(category.id, "Category didn't have an id")
             self.assertIsNotNone(category.name, "Category didn't have a name")
@@ -25,7 +27,7 @@ class CommonTestsMixin:
         self.validate_sales(page_sales)
 
     def test_csv_results(self) -> None:
-        csv_results = self.page.get_result_csv()  # TODO must return an Interator Sale class
+        csv_results = self.page.get_result_csv()
         self.validate_sales(csv_results)
 
     def validate_sales(self, sales: Iterator) -> None:

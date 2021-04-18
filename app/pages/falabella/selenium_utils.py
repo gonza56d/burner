@@ -23,14 +23,15 @@ class FalabellaSeleniumUtils:
 
     BY_CATEGORIES_BUTTON = (
         By.XPATH,
-        '(*//div[@class="CategoryMenuButton-module_toggle-ref-container__21GmW"])[2]'
+        '(*//div[@class="CategoryMenuButton-module_toggle-' +
+        'ref-container__21GmW"])[2]'
     )
 
     BY_FURNITURES_CATEGORY = (By.XPATH, '*//span[text()="Muebles"]')
 
     BY_FURNITURES_CATEGORIES = (
         By.XPATH,
-        '*//li[@class="secondLevelMenu__title"]/a[contains(@href, '+
+        '*//li[@class="secondLevelMenu__title"]/a[contains(@href, ' +
         '"/falabella-ar/category/") and not(contains(@href, "?"))]'
     )
 
