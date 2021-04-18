@@ -10,35 +10,20 @@ from app.pages import BasePage
 
 class FalabellaPage(BasePage):
     """
-    Page object model to collect data from Falabella web page.
+    Page object model that implements how to collect and store data
+    from Falabella web page.
     """
 
     PAGE_NAME = 'Falabella'
     CATEGORIES_STORAGE_FILENAME = 'falabella-categories'
 
-    def get_categories(self) -> List[PageCategory]:
-        """
-        Get furniture categories from Falabella page.
-        """
+    def get_page_name(self):
+        return self.PAGE_NAME
 
-        categories = FalabellaSeleniumUtils().get_furnitures_categories()
-        self.categories = []
-        while True:
-            try:
-                category = next(categories)
-                self.categories.append(
-                    PageCategory(
-                        page_name=FalabellaPage.PAGE_NAME,
-                        category_name=category.text,
-                        category_url=category.get_attribute('href'),
-                        category_id=category.get_attribute('href').split('/')[5]
-                    )
-                )
-            except StopIteration:
-                break
-        return self.categories
+    def get_categories_storage_filename(self) -> str:
+        _date = date.today()
+        return f'{self.CATEGORIES_STORAGE_FILENAME}-{str(_date)}.csv'
 
     @property
-    def categories_storage_filename(self) -> str:
-        _date = date.today()
-        return f'{FalabellaPage.CATEGORIES_STORAGE_FILENAME}-{str(_date)}.csv'
+    def furnitures_categories(self):
+        return FalabellaSeleniumUtils().get_furnitures_categories()
