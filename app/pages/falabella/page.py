@@ -3,13 +3,13 @@ from datetime import date
 from typing import Generator
 
 # App
-from .selenium_utils import FalabellaSeleniumUtils
 from app.pages import BasePage
+from .selenium_utils import FalabellaSeleniumUtils
 
 
 class FalabellaPage(BasePage):
     """
-    Page object model that implements how to collect and store data
+    Page model that implements how to collect and store data
     from Falabella web page.
     """
 

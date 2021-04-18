@@ -8,7 +8,6 @@ from selenium.webdriver.remote.webelement import WebElement
 
 # App
 from app.pages import BaseSeleniumUtils
-from app.settings import SELENIUM_DRIVER_PATH
 
 
 class SodimacSeleniumUtils(BaseSeleniumUtils):

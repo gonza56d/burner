@@ -1,8 +1,27 @@
+# Python
+from datetime import date
+
+# App
+from app.pages import BasePage
+from .selenium_utils import SodimacSeleniumUtils
 
 
-class SodimacPage:
+class SodimacPage(BasePage):
     """
-    Page object model to collect data from Sodimac web page.
+    Page model that implements how to collect and store data
+    from Sodimac web page.
     """
 
-    pass
+    PAGE_NAME = 'Sodimac'
+    CATEGORIES_STORAGE_FILENAME = 'sodimac-categories'
+
+    def get_page_name(self) -> str:
+        return self.PAGE_NAME
+
+    def get_categories_storage_filename(self) -> str:
+        _date = date.today()
+        return f'{self.CATEGORIES_STORAGE_FILENAME}-{str(_date)}.csv'
+
+    @property
+    def furnitures_categories(self):
+        return SodimacSeleniumUtils().get_furnitures_categories()

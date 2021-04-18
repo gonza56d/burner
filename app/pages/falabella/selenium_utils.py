@@ -8,10 +8,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
 # App
-from app.settings import SELENIUM_DRIVER_PATH
+from app.pages import BaseSeleniumUtils
 
 
-class FalabellaSeleniumUtils:
+class FalabellaSeleniumUtils(BaseSeleniumUtils):
     """
     Falabella web page selenium utils.
 
@@ -35,10 +35,8 @@ class FalabellaSeleniumUtils:
         '"/falabella-ar/category/") and not(contains(@href, "?"))]'
     )
 
-    def __init__(self) -> None:
-        self.driver = Chrome(executable_path=SELENIUM_DRIVER_PATH)
-        self.driver.maximize_window()
-        self.driver.get(FalabellaSeleniumUtils.PAGE_URL)
+    def get_page_url(self):
+        return self.PAGE_URL
 
     @property
     def furnitures_category(self) -> WebElement:
