@@ -1,2 +1,2 @@
-from .falabella_page import FalabellaPage
+from .falabella import FalabellaPage, FalabellaSeleniumUtils
 from .sodimac_page import SodimacPage
