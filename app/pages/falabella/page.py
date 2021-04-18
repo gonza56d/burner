@@ -14,6 +14,10 @@ class FalabellaPage:
     PAGE_NAME = 'Falabella'
 
     def get_categories(self) -> List[PageCategory]:
+        """
+        Get furniture categories from Falabella page.
+        """
+
         categories = FalabellaSeleniumUtils().get_furnitures_categories()
         self.categories = []
         while True:
