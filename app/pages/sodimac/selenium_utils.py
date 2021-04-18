@@ -7,10 +7,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
 # App
+from app.pages import BaseSeleniumUtils
 from app.settings import SELENIUM_DRIVER_PATH
 
 
-class SodimacSeleniumUtils:
+class SodimacSeleniumUtils(BaseSeleniumUtils):
     """
     Sodimac web page selenium utils.
 
@@ -31,10 +32,8 @@ class SodimacSeleniumUtils:
         '")]/a[contains(@href, "https://www.sodimac.com.ar/sodimac-ar/")]'
     )
 
-    def __init__(self) -> None:
-        self.driver = Chrome(executable_path=SELENIUM_DRIVER_PATH)
-        self.driver.maximize_window()
-        self.driver.get(SodimacSeleniumUtils.PAGE_URL)
+    def get_page_url(self):
+        return self.PAGE_URL
 
     @property
     def furnitures_category(self) -> WebElement:
