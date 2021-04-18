@@ -1,10 +1,9 @@
 # Python
 from datetime import date
-from typing import List
+from typing import Generator
 
 # App
 from .selenium_utils import FalabellaSeleniumUtils
-from app.models import PageCategory
 from app.pages import BasePage
 
 
@@ -17,7 +16,7 @@ class FalabellaPage(BasePage):
     PAGE_NAME = 'Falabella'
     CATEGORIES_STORAGE_FILENAME = 'falabella-categories'
 
-    def get_page_name(self):
+    def get_page_name(self) -> str:
         return self.PAGE_NAME
 
     def get_categories_storage_filename(self) -> str:
@@ -25,5 +24,5 @@ class FalabellaPage(BasePage):
         return f'{self.CATEGORIES_STORAGE_FILENAME}-{str(_date)}.csv'
 
     @property
-    def furnitures_categories(self):
+    def furnitures_categories(self) -> Generator:
         return FalabellaSeleniumUtils().get_furnitures_categories()
