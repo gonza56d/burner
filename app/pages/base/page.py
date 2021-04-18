@@ -66,6 +66,8 @@ class BasePage(ABC):
         created with today's date.
         """
 
+        print(f'Collecting and storing categories from {self.__class__.__name__}...')
+
         with open(
             STORAGE_PATH + self.get_categories_storage_filename(), mode='w'
         ) as file:
