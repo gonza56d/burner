@@ -1,5 +1,6 @@
 # Python
 from datetime import date
+from typing import Generator
 
 # App
 from app.pages import BasePage
@@ -23,5 +24,5 @@ class SodimacPage(BasePage):
         return f'{self.CATEGORIES_STORAGE_FILENAME}-{str(_date)}.csv'
 
     @property
-    def furnitures_categories(self):
+    def furnitures_categories(self) -> Generator:
         return SodimacSeleniumUtils().get_furnitures_categories()

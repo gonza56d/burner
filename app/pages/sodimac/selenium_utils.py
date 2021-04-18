@@ -2,7 +2,6 @@
 from typing import Generator
 
 # Selenium
-from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
