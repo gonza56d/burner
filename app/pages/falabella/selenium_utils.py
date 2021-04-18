@@ -1,7 +1,11 @@
+# Python
+from typing import Generator
+
 # Selenium
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 
 # App
 from app.settings import SELENIUM_DRIVER_PATH
@@ -36,7 +40,7 @@ class FalabellaSeleniumUtils:
         self.driver.get(FalabellaSeleniumUtils.PAGE_URL)
 
     @property
-    def furnitures_category(self):
+    def furnitures_category(self) -> WebElement:
         categories_button = self.driver.find_element(
             *FalabellaSeleniumUtils.BY_CATEGORIES_BUTTON
         )
@@ -45,12 +49,19 @@ class FalabellaSeleniumUtils:
             *FalabellaSeleniumUtils.BY_FURNITURES_CATEGORY
         )
 
-    def hover_on_furnitures_category(self):
+    def hover_on_furnitures_category(self) -> None:
+        """
+        Hover on furnitures category in order to display its nested categories.
+        """
         hover = ActionChains(self.driver)\
             .move_to_element(self.furnitures_category)
         hover.perform()
 
-    def get_furnitures_categories(self):
+    def get_furnitures_categories(self) -> Generator[WebElement]:
+        """
+        Find and return a generator of furnitures nested categories web
+        elements.
+        """
         self.hover_on_furnitures_category()
         furnitures_categories = self.driver.find_elements(
             *FalabellaSeleniumUtils.BY_FURNITURES_CATEGORIES
