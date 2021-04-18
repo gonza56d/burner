@@ -1,3 +1,14 @@
+# Python
+from typing import Generator
+
+# Selenium
+from selenium.webdriver import Chrome
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
+
+# App
+from app.settings import SELENIUM_DRIVER_PATH
+
 
 class SodimacSeleniumUtils:
     """
@@ -7,4 +18,33 @@ class SodimacSeleniumUtils:
     data. E.g. data that is lazy and won't be in DOM at the initial request.
     """
 
-    pass
+    PAGE_URL = 'https://www.sodimac.com.ar/sodimac-ar/'
+
+    BY_FURNITURES_CATEGORY = (
+        By.XPATH,
+        '*//a[text()="Muebles y Organización"]'
+    )
+
+    BY_FURNITURES_CATEGORIES = (
+        By.XPATH,
+        '*//ul[@class="menu-list-desktop"]/li[contains(@class, "link-primary' +
+        '")]/a[contains(@href, "https://www.sodimac.com.ar/sodimac-ar/")]'
+    )
+
+    def __init__(self) -> None:
+        self.driver = Chrome(executable_path=SELENIUM_DRIVER_PATH)
+        self.driver.maximize_window()
+        self.driver.get(SodimacSeleniumUtils.PAGE_URL)
+
+    @property
+    def furnitures_category(self) -> WebElement:
+        return self.driver.find_element(
+            *SodimacSeleniumUtils.BY_FURNITURES_CATEGORY
+        )
+
+    def get_furnitures_categories(self) -> Generator:
+        self.furnitures_category.click()
+        furnitures_categories = self.driver.find_elements(
+            *SodimacSeleniumUtils.BY_FURNITURES_CATEGORIES
+        )
+        yield from furnitures_categories
