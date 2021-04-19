@@ -1,6 +1,6 @@
 # Python
 from datetime import date
-from typing import Generator, List
+from typing import Generator
 
 # App
 from app.pages import BasePage

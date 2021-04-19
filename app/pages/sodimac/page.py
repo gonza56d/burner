@@ -36,6 +36,29 @@ class SodimacPage(
     def furnitures_categories(self) -> Generator:
         return SodimacSeleniumUtils().get_furnitures_categories()
 
-    @property
-    def furnitures_products(self) -> Generator:
-        pass # TODO 
+    def get_products_in_page(self):
+        return self.soup.find_all(
+            'div',
+            {'class': 'jsx-411745769 product ie11-product-container'}
+        )
+
+    @staticmethod
+    def get_product_id_lookup(soup_product):
+        return soup_product.find_all('a')[0]['href'].split('/')[5]
+
+    @staticmethod
+    def get_product_url_lookup(soup_product):
+        return soup_product.find_all('a')[0]['href']
+
+    @staticmethod
+    def get_product_name_lookup(soup_product):
+        return soup_product.find(
+            'h2', {'class': 'jsx-411745769 product-title'}
+        ).text
+
+    @staticmethod
+    def get_product_price_lookup(soup_product):
+        fixed_price = soup_product.find(
+            'div', {'class': 'jsx-4135487716 price jsx-175035124'}
+        ).find_all('span')[0].text.replace('.', '').replace(',', '.').replace('$', '')
+        return float(fixed_price)
