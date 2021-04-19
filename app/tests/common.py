@@ -1,5 +1,8 @@
 # Python
-from typing import Iterator
+from typing import List
+
+# App
+from app.models import PageCategory
 
 
 class CommonTestsMixin:
@@ -7,55 +10,27 @@ class CommonTestsMixin:
     Common web pages data collection unit tests.
 
     Perform the following validations:
-    * Categories from page with their ID, name and href.
-    * Sales from any category, with their ID, name, category ID and price.
-    * Sales from CSV result file, with their ID, name, category ID and price.
+    * Categories from page with their attributes.
+    * Categories from CSV with their attributes.
+    * Products from page with their attributes.
+    * Products from CSV with their attributes.
     """
 
     def test_get_categories(self) -> None:
         page_categories = self.page.get_categories()
+        self.validate_categories(page_categories)
+
+    def test_store_categories(self) -> None:
+        self.page.store_categories()
+        stored_categories = self.page.get_latest_categories()
+        self.validate_categories(stored_categories)
+
+    def validate_categories(self, categories: List[PageCategory]) -> None:
         self.assertGreater(
-            len(page_categories), 0, "No categories where found"
+            len(categories), 0, "No categories where found"
         )
-        for category in page_categories:
-            self.assertIsNotNone(category.id, "Category didn't have an id")
-            self.assertIsNotNone(category.name, "Category didn't have a name")
-            self.assertIsNotNone(category.href, "Category didn't have an href")
-
-    def test_get_sales(self) -> None:
-        page_sales = self.page.get_sales()
-        self.validate_sales(page_sales)
-
-    def test_csv_results(self) -> None:
-        csv_results = self.page.get_result_csv()
-        self.validate_sales(csv_results)
-
-    def validate_sales(self, sales: Iterator) -> None:
-        """
-        Validate common Sale objects collected data.
-        """
-
-        self.assertGreater(len(sales), 0, "No sales where found")
-
-        while True:
-            try:
-                sale = next(sales)
-
-                self.assertIsNotNone(
-                    sale.product_id,
-                    "Sale didn't have an ID"
-                )
-                self.assertIsNotNone(
-                    sale.product_name,
-                    "Sale didn't have a product name"
-                )
-                self.assertIsNotNone(
-                    sale.product_category_id,
-                    "Sale didn't have a product category ID"
-                )
-                self.assertIsNotNone(
-                    sale.product_price,
-                    "Sale didn't have a product price"
-                )
-            except StopIteration:
-                break
+        for category in categories:
+            self.assertIsNotNone(category.page_name, "Category didn't have page name")
+            self.assertIsNotNone(category.category_name, "Category didn't have a name")
+            self.assertIsNotNone(category.category_url, "Category didn't have a url")
+            self.assertIsNotNone(category.category_id, "Category didn't have an ID")

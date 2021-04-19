@@ -8,7 +8,7 @@ import csv
 
 # Selenium webdriver path
 # Set the indicated driver for the execution environment
-SELENIUM_DRIVER_PATH = './app/linux_chromedriver'
+SELENIUM_DRIVER_PATH = './app/mac_chromedriver'
 
 # Data storage (CSV files) path
 STORAGE_PATH = './app/data/'

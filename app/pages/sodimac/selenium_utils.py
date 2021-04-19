@@ -2,6 +2,7 @@
 from typing import Generator
 
 # Selenium
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
@@ -19,6 +20,11 @@ class SodimacSeleniumUtils(BaseSeleniumUtils):
 
     PAGE_URL = 'https://www.sodimac.com.ar/sodimac-ar/'
 
+    BY_ANNOYING_BUTTON = (
+        By.XPATH,
+        '*//button[@class="Location-module_cancel-button__1ApHm"]'
+    )
+
     BY_FURNITURES_CATEGORY = (
         By.XPATH,
         '*//a[text()="Muebles y Organización"]'
@@ -34,7 +40,23 @@ class SodimacSeleniumUtils(BaseSeleniumUtils):
         return self.PAGE_URL
 
     @property
+    def annoying_button(self) -> WebElement:
+        """
+        Sometimes a notification is displayed, preventing us to click
+        the desired category button.
+        """
+        try:
+            return self.driver.find_element(
+                *SodimacSeleniumUtils.BY_ANNOYING_BUTTON
+            )
+        except NoSuchElementException:
+            return None
+
+    @property
     def furnitures_category(self) -> WebElement:
+        annoying_button = self.annoying_button
+        if annoying_button is not None:
+            annoying_button.click()
         return self.driver.find_element(
             *SodimacSeleniumUtils.BY_FURNITURES_CATEGORY
         )
