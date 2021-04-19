@@ -85,16 +85,19 @@ class CollectProductsMixin:
     def get_latest_categories(self) -> List[PageCategory]:
         categories = []
         last_categories_file = self.get_latest_categories_file()
+        first = True  # avoid appending the CSV header (first row)
         with open(CATEGORIES_STORAGE_PATH + last_categories_file) as file:
             file = get_csv_reader(file)
             for row in file:
-                category = PageCategory(
-                    page_name=row[0],
-                    category_name=row[1],
-                    category_url=row[2],
-                    category_id=row[3]
-                )
-                categories.append(category)
+                if not first:
+                    category = PageCategory(
+                        page_name=row[0],
+                        category_name=row[1],
+                        category_url=row[2],
+                        category_id=row[3]
+                    )
+                    categories.append(category)
+                first = False
         return categories
 
     def get_products(self) -> List[PageProduct]:
