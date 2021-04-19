@@ -13,6 +13,10 @@ SELENIUM_DRIVER_PATH = './app/linux_chromedriver'
 # Data storage (CSV files) path
 STORAGE_PATH = './app/data/'
 
+CATEGORIES_STORAGE_PATH = STORAGE_PATH + 'categories/'
+
+PRODUCTS_STORAGE_PATH = STORAGE_PATH + 'products/'
+
 
 def get_csv_writer(file):
     """

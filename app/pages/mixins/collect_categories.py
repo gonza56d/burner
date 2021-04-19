@@ -3,7 +3,7 @@ from typing import List
 
 # App
 from app.models import PageCategory
-from app.settings import STORAGE_PATH, get_csv_writer
+from app.settings import CATEGORIES_STORAGE_PATH, get_csv_writer
 
 
 class CollectCategoriesMixin:
@@ -46,7 +46,8 @@ class CollectCategoriesMixin:
         print(f'Collecting and storing categories from {self.__class__.__name__}...')
 
         with open(
-            STORAGE_PATH + self.get_categories_storage_filename(), mode='w'
+            CATEGORIES_STORAGE_PATH + self.get_categories_storage_filename(),
+            mode='w'
         ) as file:
 
             file = get_csv_writer(file)

@@ -6,7 +6,12 @@ from typing import List
 
 # App
 from app.models import PageCategory, PageProduct
-from app.settings import STORAGE_PATH, get_csv_reader, get_csv_writer
+from app.settings import (
+    CATEGORIES_STORAGE_PATH,
+    PRODUCTS_STORAGE_PATH,
+    get_csv_reader,
+    get_csv_writer
+)
 
 
 class CollectProductsMixin:
@@ -48,11 +53,12 @@ class CollectProductsMixin:
 
     def get_categories_files(self):
         """
-        Find all the CSV files in STORAGE_PATH, then filter and return only
+        Find all the categories CSV files, then filter and return only
         those that have subclass' CATEGORIES_STORAGE_FILENAME in their filename.
         """
         all_categories_files = [
-            f for f in listdir(STORAGE_PATH) if isfile(join(STORAGE_PATH, f))
+            f for f in listdir(CATEGORIES_STORAGE_PATH) 
+            if isfile(join(CATEGORIES_STORAGE_PATH, f))
         ]
         categories_files = []
         for file in all_categories_files:
@@ -75,7 +81,7 @@ class CollectProductsMixin:
     def get_latest_categories(self) -> List[PageCategory]:
         categories = []
         last_categories_file = self.get_latest_categories_file()
-        with open(STORAGE_PATH + last_categories_file) as file:
+        with open(CATEGORIES_STORAGE_PATH + last_categories_file) as file:
             file = get_csv_reader(file)
             for row in file:
                 category = PageCategory(
@@ -121,7 +127,8 @@ class CollectProductsMixin:
         print(f'Collecting and storing products from {self.__class__.__name__}...')
 
         with open(
-            STORAGE_PATH + self.get_products_storage_filename(), mode='w'
+            PRODUCTS_STORAGE_PATH + self.get_products_storage_filename(),
+            mode='w'
         ) as file:
 
             file = get_csv_writer(file)
