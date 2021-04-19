@@ -1,8 +1,13 @@
 # Python
 from datetime import date
+import requests
 from typing import Generator
 
+# BeautifulSoup
+from bs4 import BeautifulSoup
+
 # App
+from app.models import PageCategory, PageProduct
 from app.pages import BasePage
 from app.pages.mixins import CollectCategoriesMixin, CollectProductsMixin
 from .selenium_utils import FalabellaSeleniumUtils
@@ -38,4 +43,33 @@ class FalabellaPage(
 
     @property
     def furnitures_products(self) -> Generator:
-        pass # TODO 
+        products = []
+        for category in self.get_latest_categories():
+            _category_products = self.get_category_products(category)
+            while True:
+                try:
+                    category_product = next(_category_products)
+                    products.append(category_product)
+                except StopIteration:
+                    break
+        yield from products
+
+    def get_category_products(self, category: PageCategory) -> Generator:
+        category_products = []
+        request = requests.get(category.category_url)
+        soup = BeautifulSoup(request.text, 'html.parser')
+        product_divs = soup.find_all(
+            'div',
+            {'class': 'jsx-3488318063 jsx-3886284353 pod pod-4_GRID'}
+        )
+        for product_div in product_divs:
+            page_product = PageProduct(
+                page_name=FalabellaPage.PAGE_NAME,
+                category_id=category.category_id,
+                product_id=product_div.find_all('a')[0]['href'].split('/')[5],
+                product_url=product_div.find_all('a')[0]['href'],
+                product_name=product_div.find('b', {'class': 'pod-subTitle'}).text,
+                product_price=product_div.find('li', {'class': 'price-0'})['data-undefined-price']
+            )
+            category_products.append(page_product)
+        yield from category_products
