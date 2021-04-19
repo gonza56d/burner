@@ -8,8 +8,8 @@ from app.settings import STORAGE_PATH, get_csv_writer
 
 class CollectCategoriesMixin:
     """
-    Mixin that adds to the class the possibility to collect and store
-    categories from the indicated page.
+    Mixin to inherit in page models that provides the possibility of
+    collecting and storing categories from the indicated page.
     """
 
     def get_categories(self) -> List[PageCategory]:
