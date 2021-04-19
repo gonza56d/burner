@@ -60,7 +60,7 @@ class CollectProductsMixin:
                 categories_files.append(file)
         return categories_files
 
-    def get_latest_categories_file(self):
+    def get_latest_categories_file(self) -> str:
         """
         Get the CSV file with the latest date and subclass' 
         CATEGORIES_STORAGE_FILENAME in its filename.
@@ -100,10 +100,10 @@ class CollectProductsMixin:
                 self.products.append(
                     PageProduct(
                         page_name=self.get_page_name(),
-                        category_id=category_id,
-                        product_id=product_id,
-                        product_name=product_name,
-                        product_price=product_price,
+                        category_id=product.category_id,
+                        product_id=product.product_id,
+                        product_name=product.product_name,
+                        product_price=product.product_price,
                     )
                 )
             except StopIteration:
@@ -126,11 +126,11 @@ class CollectProductsMixin:
 
             file = get_csv_writer(file)
             file.writerow([header for header in PageProduct.CSV_HEADERS])
-            for category in self.get_products():
+            for product in self.get_products():
                 file.writerow([
-                    category.page_name,
-                    category.category_id,
-                    category.product_id,
-                    category.product_name,
-                    category.product_price
+                    self.get_page_name(),
+                    product.category_id,
+                    product.product_id,
+                    product.product_name,
+                    product.product_price,
                 ])

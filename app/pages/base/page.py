@@ -1,5 +1,6 @@
 # Python
 from abc import ABC, abstractmethod
+from typing import Generator
 
 
 class BasePage(ABC):
@@ -18,14 +19,29 @@ class BasePage(ABC):
     @abstractmethod
     def get_categories_storage_filename(self) -> str:
         """
-        Implement the name under which the CSV files are stored.
+        Implement the name under which the categories CSV files are stored.
+        """
+        pass
+
+    @abstractmethod
+    def get_products_storage_filename(self) -> str:
+        """
+        Implement the name under which the products CSV files are stored.
         """
         pass
 
     @property
     @abstractmethod
-    def furnitures_categories(self):
+    def furnitures_categories(self) -> Generator:
         """
         Implement how to get furnitures categories from page.
+        """
+        pass
+
+    @property
+    @abstractmethod
+    def furnitures_products(self) -> Generator:
+        """
+        Implement how to get furnitures products from page.
         """
         pass
