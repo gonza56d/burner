@@ -120,6 +120,9 @@ class CollectProductsMixin:
         yield from products
 
     def get_category_products(self, category: PageCategory) -> Generator:
+        """
+        
+        """
         category_products = []
         request = requests.get(category.category_url)
         self.soup = BeautifulSoup(request.text, 'html.parser')
@@ -137,7 +140,8 @@ class CollectProductsMixin:
 
     def get_products(self) -> Generator:
         """
-        Get products from furnitures category in a list of PageProduct models.
+        Get products from furnitures category in a generator of
+        PageProduct objects.
         """
 
         products = self.furnitures_products
