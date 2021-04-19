@@ -13,7 +13,7 @@ class PageProduct:
 
         self.page_name = page_name
         self.category_id = category_id
-        self.product_id = product_id
-        self.product_url = product_url
-        self.product_name = product_name
+        self.product_id = product_id.strip()
+        self.product_url = product_url.strip()
+        self.product_name = product_name.strip()
         self.product_price = product_price

@@ -10,6 +10,6 @@ class PageCategory:
                  category_url: str, category_id: str) -> None:
 
         self.page_name = page_name
-        self.category_name = category_name
-        self.category_url = category_url
-        self.category_id = category_id
+        self.category_name = category_name.strip()
+        self.category_url = category_url.strip()
+        self.category_id = category_id.strip()
