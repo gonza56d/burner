@@ -4,13 +4,13 @@ from typing import Generator
 
 # App
 from app.pages import BasePage
+from app.pages.mixins import CollectCategoriesMixin
 from .selenium_utils import SodimacSeleniumUtils
 
 
-class SodimacPage(BasePage):
+class SodimacPage(BasePage, CollectCategoriesMixin):
     """
-    Page model that implements how to collect and store data
-    from Sodimac web page.
+    Page model that to collect and store data from Sodimac web page.
     """
 
     PAGE_NAME = 'Sodimac'

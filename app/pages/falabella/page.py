@@ -4,13 +4,13 @@ from typing import Generator
 
 # App
 from app.pages import BasePage
+from app.pages.mixins import CollectCategoriesMixin
 from .selenium_utils import FalabellaSeleniumUtils
 
 
-class FalabellaPage(BasePage):
+class FalabellaPage(BasePage, CollectCategoriesMixin):
     """
-    Page model that implements how to collect and store data
-    from Falabella web page.
+    Page model that to collect and store data from Falabella web page.
     """
 
     PAGE_NAME = 'Falabella'
