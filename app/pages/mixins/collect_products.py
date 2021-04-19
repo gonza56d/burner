@@ -2,7 +2,11 @@
 from datetime import date
 from os import listdir
 from os.path import isfile, join
-from typing import List
+import requests
+from typing import List, Generator
+
+# BeautifulSoup
+from bs4 import BeautifulSoup
 
 # App
 from app.models import PageCategory, PageProduct
@@ -102,7 +106,36 @@ class CollectProductsMixin:
                 first = False
         return categories
 
-    def get_products(self) -> List[PageProduct]:
+    @property
+    def furnitures_products(self) -> Generator:
+        products = []
+        for category in self.get_latest_categories():
+            _category_products = self.get_category_products(category)
+            while True:
+                try:
+                    category_product = next(_category_products)
+                    products.append(category_product)
+                except StopIteration:
+                    break
+        yield from products
+
+    def get_category_products(self, category: PageCategory) -> Generator:
+        category_products = []
+        request = requests.get(category.category_url)
+        self.soup = BeautifulSoup(request.text, 'html.parser')
+        for page_product in self.get_products_in_page():
+            product = PageProduct(
+                page_name=self.get_page_name(),
+                category_id=category.category_id,
+                product_id=self.get_product_id_lookup(page_product),
+                product_url=self.get_product_url_lookup(page_product),
+                product_name=self.get_product_name_lookup(page_product),
+                product_price=self.get_product_price_lookup(page_product)
+            )
+            category_products.append(product)
+        yield from category_products
+
+    def get_products(self) -> Generator:
         """
         Get products from furnitures category in a list of PageProduct models.
         """
@@ -117,13 +150,14 @@ class CollectProductsMixin:
                         page_name=self.get_page_name(),
                         category_id=product.category_id,
                         product_id=product.product_id,
+                        product_url=product.product_url,
                         product_name=product.product_name,
                         product_price=product.product_price,
                     )
                 )
             except StopIteration:
                 break
-        return self.products
+        yield from self.products
 
     def store_products(self) -> None:
         """
@@ -142,11 +176,17 @@ class CollectProductsMixin:
 
             file = get_csv_writer(file)
             file.writerow([header for header in PageProduct.CSV_HEADERS])
-            for product in self.get_products():
-                file.writerow([
-                    self.get_page_name(),
-                    product.category_id,
-                    product.product_id,
-                    product.product_name,
-                    product.product_price,
-                ])
+            products = self.get_products()
+            while True:
+                try:
+                    product = next(products)
+                    file.writerow([
+                        self.get_page_name(),
+                        product.category_id,
+                        product.product_id,
+                        product.product_url,
+                        product.product_name,
+                        product.product_price,
+                    ])
+                except StopIteration:
+                    break

@@ -38,10 +38,30 @@ class BasePage(ABC):
         """
         pass
 
-    @property
     @abstractmethod
-    def furnitures_products(self) -> Generator:
+    def get_product_id_lookup(soup_product):
         """
-        Implement how to get furnitures products from page.
+        Implement lookup to find product id in the page.
+        """
+        pass
+
+    @abstractmethod
+    def get_product_url_lookup(soup_product):
+        """
+        Implement lookup to find product url in the page.
+        """
+        pass
+
+    @abstractmethod
+    def get_product_name_lookup(soup_product):
+        """
+        Implement lookup to find product name in the page.
+        """
+        pass
+
+    @abstractmethod
+    def get_product_price_lookup(soup_product):
+        """
+        Implement lookup to find product price in the page.
         """
         pass
