@@ -16,8 +16,10 @@ from app.settings import (
 
 class CollectProductsMixin:
     """
-    Mixin to inherit in page models that provides the possibility of
-    collecting and storing products from the indicated page.
+    Mixin to inherit in page models.
+    
+    Provides the possibility of collecting and storing products from the
+    subclass' indicated page.
     """
 
     @staticmethod
