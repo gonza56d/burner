@@ -12,19 +12,32 @@ from app.pages import FalabellaPage, SodimacPage
 
 
 class SubCommand:
+    """
+    Handle subcommands logic.
+    """
 
     HELP_COMMAND = '--help'
 
     class Pages(Enum):
+        """
+        Pages options to execute tasks from.
+        """
         FALABELLA = 'falabella'
         SODIMAC = 'sodimac'
 
     class Tasks(Enum):
+        """
+        Available tasks to execute from any page. 
+        """
         COLLECTCATEGORIES = 'collectcategories'
         COLLECTPRODUCTS = 'collectproducts'
 
     @staticmethod
     def page_to_class(page: str) -> str:
+        """
+        Convert page passed as subcommand into the corresponding
+        page class name.
+        """
         return page.title() + 'Page'
 
     def __init__(self, argv) -> None:
@@ -72,6 +85,10 @@ class SubCommand:
 
 
 def main():
+    """
+    Handle how to execute tasks from command line.
+    """
+
     sub_command = SubCommand(sys.argv)
     if sub_command.called_help:
         return
