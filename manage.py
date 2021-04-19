@@ -28,7 +28,9 @@ class SubCommand:
         return page.title() + 'Page'
 
     def __init__(self, argv) -> None:
-        SubCommand.check_if_called_help(argv)
+        self.called_help = SubCommand.check_if_called_help(argv)
+        if self.called_help:
+            return
         try:
             self.page = argv[1]
             self.task = argv[2]
@@ -49,14 +51,16 @@ class SubCommand:
             )
 
     @classmethod
-    def check_if_called_help(cls, argv):
+    def check_if_called_help(cls, argv) -> bool:
         try:
-            if argv[2] is cls.HELP_COMMAND:
+            if argv[1] == cls.HELP_COMMAND:
                 print('Usage: python3 manage.py $PAGE $TASK')
-                print(f'$PAGE options: {cls.get_pages_pretty}')
-                print(f'$TASK options: {cls.get_tasks_pretty}')
+                print(f'$PAGE options: {cls.get_pages_pretty()}')
+                print(f'$TASK options: {cls.get_tasks_pretty()}')
+                return True
         except IndexError:
             pass
+        return False
 
     @classmethod
     def get_pages_pretty(cls) -> str:
@@ -69,6 +73,8 @@ class SubCommand:
 
 def main():
     sub_command = SubCommand(sys.argv)
+    if sub_command.called_help:
+        return
     page = SubCommand.page_to_class(sub_command.page)
     method = ''
     if sub_command.task.lower() == SubCommand.Tasks.COLLECTCATEGORIES.value:
@@ -76,6 +82,7 @@ def main():
     elif sub_command.task.lower() == SubCommand.Tasks.COLLECTPRODUCTS.value:
         method = 'store_products()'
     eval(f'{page}().{method}')
+
 
 if __name__ == '__main__':
     main()
