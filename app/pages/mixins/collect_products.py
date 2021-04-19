@@ -58,39 +58,70 @@ class CollectProductsMixin:
                 last_file = file
         return last_file
 
-    def get_categories_files(self) -> str:
+    def get_files(self, file_lookup: str, storage_path) -> str:
         """
-        Find all the categories CSV files, then filter and return only
-        those that have subclass' CATEGORIES_STORAGE_FILENAME in their filename.
+        Filter and return CSV files filtering by file_lookup.
+
+        :param file_lookup: part of name to filter files.
         """
         all_categories_files = [
-            f for f in listdir(CATEGORIES_STORAGE_PATH) 
-            if isfile(join(CATEGORIES_STORAGE_PATH, f))
+            f for f in listdir(storage_path) 
+            if isfile(join(storage_path, f))
         ]
         categories_files = []
         for file in all_categories_files:
-            if self.CATEGORIES_STORAGE_FILENAME in file:
+            if file_lookup in file:
                 categories_files.append(file)
         return categories_files
 
-    def get_latest_categories_file(self) -> str:
+    def get_latest_file(self, file_lookup: str, storage_path) -> str:
         """
-        Get the CSV file with the latest date and subclass' 
-        CATEGORIES_STORAGE_FILENAME in its filename.
+        Get the CSV file with the latest date and file_lookup in its filename.
+
+        :param file_lookup: part of name filter files.
         """
-        files = self.get_categories_files()
-        str_dates = self.get_dates_as_string(
-            files,
-            self.CATEGORIES_STORAGE_FILENAME
-        )
+        files = self.get_files(file_lookup, storage_path)
+        str_dates = self.get_dates_as_string(files, file_lookup)
         dates = self.get_str_dates_as_dates(str_dates)
         max_date = max(dates)
         last_categories_file = self.get_file_with_date(files, max_date)
         return last_categories_file
 
+    def get_latest_products(self) -> Generator:
+        """
+        Get products from latest CSV file.
+        """
+        products = []
+        last_products_file = self.get_latest_file(
+            self.PRODUCTS_STORAGE_FILENAME,
+            PRODUCTS_STORAGE_PATH
+        )
+        first = True  # avoid appending the CSV header (first row)
+        with open(PRODUCTS_STORAGE_PATH + last_products_file) as file:
+            file = get_csv_reader(file)
+            for row in file:
+                if not first:
+                    product = PageProduct(
+                        page_name=row[0],
+                        category_id=row[1],
+                        product_id=row[2],
+                        product_url=row[3],
+                        product_name=row[4],
+                        product_price=row[5],
+                    )
+                    products.append(product)
+                first = False
+        yield from products
+
     def get_latest_categories(self) -> List[PageCategory]:
+        """
+        Get categories from latest CSV file.
+        """
         categories = []
-        last_categories_file = self.get_latest_categories_file()
+        last_categories_file = self.get_latest_file(
+            self.CATEGORIES_STORAGE_FILENAME,
+            CATEGORIES_STORAGE_PATH
+        )
         first = True  # avoid appending the CSV header (first row)
         with open(CATEGORIES_STORAGE_PATH + last_categories_file) as file:
             file = get_csv_reader(file)
@@ -121,7 +152,7 @@ class CollectProductsMixin:
 
     def get_category_products(self, category: PageCategory) -> Generator:
         """
-        
+        Get products from category page.
         """
         category_products = []
         request = requests.get(category.category_url)
