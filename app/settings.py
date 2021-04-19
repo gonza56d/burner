@@ -21,3 +21,10 @@ def get_csv_writer(file):
     return csv.writer(
         file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL
     )
+
+
+def get_csv_reader(file):
+    """
+    Return app's CSV reader with the proper configurations.
+    """
+    return csv.reader(file, delimiter=',')

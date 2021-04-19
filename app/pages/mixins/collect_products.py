@@ -1,9 +1,12 @@
 # Python
+from datetime import date
+from os import listdir
+from os.path import isfile, join
 from typing import List
 
 # App
-from app.models import PageProduct
-from app.settings import STORAGE_PATH, get_csv_writer
+from app.models import PageCategory, PageProduct
+from app.settings import STORAGE_PATH, get_csv_reader, get_csv_writer
 
 
 class CollectProductsMixin:
@@ -11,6 +14,78 @@ class CollectProductsMixin:
     Mixin to inherit in page models that provides the possibility of
     collecting and storing products from the indicated page.
     """
+
+    @staticmethod
+    def get_dates_as_string(files: List[str]) -> List[str]:
+        """
+        Collect and return all the dates as string from the files' names.
+        """
+        str_dates = []
+        for file in files:
+            str_date = file.replace('falabella-categories' + '-', '')\
+                .replace('.csv', '')
+            str_dates.append(str_date)
+        return str_dates
+
+    @staticmethod
+    def get_str_dates_as_dates(str_dates: List[str]) -> List[date]:
+        """
+        Convert all the string dates to dates and return it.
+        """
+        dates = []
+        for str_date in str_dates:
+            _date = date(*[int(result) for result in str_date.split('-')])
+            dates.append(_date)
+        return dates
+
+    @staticmethod
+    def get_file_with_date(files: List[str], file_date: date) -> str:
+        last_file = None
+        for file in files:
+            if str(file_date) in file:
+                last_file = file
+        return last_file
+
+    def get_categories_files(self):
+        """
+        Find all the CSV files in STORAGE_PATH, then filter and return only
+        those that have subclass' CATEGORIES_STORAGE_FILENAME in their filename.
+        """
+        all_categories_files = [
+            f for f in listdir(STORAGE_PATH) if isfile(join(STORAGE_PATH, f))
+        ]
+        categories_files = []
+        for file in all_categories_files:
+            if 'falabella-categories' in file:
+                categories_files.append(file)
+        return categories_files
+
+    def get_latest_categories_file(self):
+        """
+        Get the CSV file with the latest date and subclass' 
+        CATEGORIES_STORAGE_FILENAME in its filename.
+        """
+        files = self.get_categories_files()
+        str_dates = self.get_dates_as_string(files)
+        dates = self.get_str_dates_as_dates(str_dates)
+        max_date = max(dates)
+        last_categories_file = self.get_file_with_date(files, max_date)
+        return last_categories_file
+
+    def get_latest_categories(self) -> List[PageCategory]:
+        categories = []
+        last_categories_file = self.get_latest_categories_file()
+        with open(STORAGE_PATH + last_categories_file) as file:
+            file = get_csv_reader(file)
+            for row in file:
+                category = PageCategory(
+                    page_name=row[0],
+                    category_name=row[1],
+                    category_url=row[2],
+                    category_id=row[3]
+                )
+                categories.append(category)
+        return categories
 
     def get_products(self) -> List[PageProduct]:
         """
