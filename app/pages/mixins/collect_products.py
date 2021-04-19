@@ -21,14 +21,15 @@ class CollectProductsMixin:
     """
 
     @staticmethod
-    def get_dates_as_string(files: List[str]) -> List[str]:
+    def get_dates_as_string(files: List[str], replace_lookup: str) -> List[str]:
         """
         Collect and return all the dates as string from the files' names.
         """
         str_dates = []
         for file in files:
-            str_date = file.replace('falabella-categories' + '-', '')\
-                .replace('.csv', '')
+            str_date = file.replace(
+                replace_lookup + '-', ''
+            ).replace('.csv', '')
             str_dates.append(str_date)
         return str_dates
 
@@ -51,7 +52,7 @@ class CollectProductsMixin:
                 last_file = file
         return last_file
 
-    def get_categories_files(self):
+    def get_categories_files(self) -> str:
         """
         Find all the categories CSV files, then filter and return only
         those that have subclass' CATEGORIES_STORAGE_FILENAME in their filename.
@@ -62,7 +63,7 @@ class CollectProductsMixin:
         ]
         categories_files = []
         for file in all_categories_files:
-            if 'falabella-categories' in file:
+            if self.CATEGORIES_STORAGE_FILENAME in file:
                 categories_files.append(file)
         return categories_files
 
@@ -72,7 +73,10 @@ class CollectProductsMixin:
         CATEGORIES_STORAGE_FILENAME in its filename.
         """
         files = self.get_categories_files()
-        str_dates = self.get_dates_as_string(files)
+        str_dates = self.get_dates_as_string(
+            files,
+            self.CATEGORIES_STORAGE_FILENAME
+        )
         dates = self.get_str_dates_as_dates(str_dates)
         max_date = max(dates)
         last_categories_file = self.get_file_with_date(files, max_date)
