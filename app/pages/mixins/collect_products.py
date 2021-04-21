@@ -194,7 +194,7 @@ class CollectProductsMixin:
                 break
         yield from self.products
 
-    def store_products(self) -> None:
+    async def store_products(self) -> None:
         """
         Store today's category products in CSV.
 
@@ -225,3 +225,4 @@ class CollectProductsMixin:
                     ])
                 except StopIteration:
                     break
+        print(f'Finished products from {self.__class__.__name__}.')

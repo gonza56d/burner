@@ -13,6 +13,6 @@ def timer(fun):
         value = fun(*args, **kwargs)
         end = time.perf_counter()
         total = end - begin
-        print(f' * Burner Timer: Finished task {fun.__name__} in {total:0.4f} seconds.')
+        print(f' * Burner Timer: Finished task in {total:0.4f} seconds.')
         return value
     return wrapper
