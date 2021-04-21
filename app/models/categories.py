@@ -1,7 +1,7 @@
 
 class PageCategory:
     """
-    Model to store web page category data.
+    Model to handle web pages' category data.
     """
 
     CSV_HEADERS = ['STORE_NAME', 'CATEGORY_NAME', 'CATEGORY_URL', 'CATEGORY_ID']

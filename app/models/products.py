@@ -1,7 +1,7 @@
 
 class PageProduct:
     """
-    Model to store web page product data.
+    Model to handle web pages' product data.
     """
 
     CSV_HEADERS = [

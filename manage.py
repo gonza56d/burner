@@ -20,7 +20,7 @@ class SubCommand:
     Handle subcommands logic.
     """
 
-    USAGE = " * Usage: manage.py --pages='$PAGE_1 $PAGE_2 $PAGE_N' --task='$TASK_1 $TASK_2 $TASK_N'"
+    USAGE = " * Usage: manage.py --pages='$PAGE_1 $PAGE_2 $PAGE_N' --tasks='$TASK_1 $TASK_2 $TASK_N'"
     HELP_COMMAND = '-help'
 
     class Pages(Enum):
@@ -132,7 +132,8 @@ class SubCommand:
                 )
                 return True
         except IndexError:
-            return False
+            pass
+        return False
 
     @classmethod
     def get_pages_pretty(cls) -> str:
