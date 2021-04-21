@@ -7,8 +7,9 @@ from enum import Enum
 import sys
 
 # App
-from app.utils.exceptions import CommandExecutionException
 from app.pages import FalabellaPage, SodimacPage
+from app.utils.decorators import timer
+from app.utils.exceptions import CommandExecutionException
 
 
 class SubCommand:
@@ -84,6 +85,7 @@ class SubCommand:
         return f'{[member.value for member in cls.Tasks]}'
 
 
+@timer
 def main():
     """
     Handle how to execute tasks from command line.
