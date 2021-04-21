@@ -83,7 +83,7 @@ class SubCommand:
             self.throw_common_exception()
         return first_arg + second_arg
 
-    def validate_data(self):
+    def validate_data(self) -> None:
         """
         Validate that pages and tasks sent as subcommands are valid.
         """
@@ -107,7 +107,7 @@ class SubCommand:
             f" * See manage.py {self.HELP_COMMAND}"
         )
 
-    def get_pages_and_tasks(self, arguments):
+    def get_pages_and_tasks(self, arguments: str) -> None:
         """
         Handle commandline to compose the pages and tasks intended to run.
         """
@@ -119,7 +119,7 @@ class SubCommand:
                 self.tasks = val.replace('tasks=', '').strip().split(' ')
 
     @classmethod
-    def check_if_called_help(cls, argv) -> bool:
+    def check_if_called_help(cls, argv: List[str]) -> bool:
         """
         Check if user called help command and print instructions if true.
         """
@@ -143,7 +143,7 @@ class SubCommand:
         return f'{[member.value for member in cls.Tasks]}'
 
 
-async def run(pages, methods):
+async def run(pages: List[str], methods: List[str]) -> None:
     """
     Execute pages asynchronously with their own tasks in the order sent by user.
     """
@@ -154,7 +154,7 @@ async def run(pages, methods):
         await asyncio.gather(*[eval(_run) for _run in thread_run])
 
 
-async def main():
+async def main() -> None:
     """
     Handle how to execute tasks from command line.
     """
