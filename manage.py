@@ -12,7 +12,6 @@ import asyncio
 
 # App
 from app.pages import FalabellaPage, SodimacPage
-from app.utils.decorators import timer
 from app.utils.exceptions import CommandExecutionException
 
 
@@ -60,24 +59,34 @@ class SubCommand:
         """
         return [page.title() + 'Page' for page in pages]
 
-    def __init__(self, argv) -> None:
+    def __init__(self, argv: List[str]) -> None:
         self.called_help = SubCommand.check_if_called_help(argv)
         if self.called_help:
             return
         self.pages = None
         self.tasks = None
-        try:
-            first_arg = argv[1]
-            second_arg = argv[2]
-        except IndexError:
-            self.throw_common_exception()
-        arguments = first_arg + second_arg
+        arguments = self.validate_arguments(argv)
         self.get_pages_and_tasks(arguments)
         if self.pages is None or self.tasks is None:
             self.throw_common_exception()
         self.validate_data()
 
+    def validate_arguments(self, argv: List[str]) -> str:
+        """
+        Validate that all the parts of the command are present and return them
+        in a single string to handle later in get_pages_and_tasks().
+        """
+        try:
+            first_arg = argv[1]
+            second_arg = argv[2]
+        except IndexError:
+            self.throw_common_exception()
+        return first_arg + second_arg
+
     def validate_data(self):
+        """
+        Validate that pages and tasks sent as subcommands are valid.
+        """
         for page in self.pages:
             if page.upper() not in SubCommand.Pages.__members__:
                 raise CommandExecutionException(
@@ -99,6 +108,9 @@ class SubCommand:
         )
 
     def get_pages_and_tasks(self, arguments):
+        """
+        Handle commandline to compose the pages and tasks intended to run.
+        """
         splitted = arguments.split('--')
         for val in splitted:
             if val.startswith('pages='):
@@ -108,6 +120,9 @@ class SubCommand:
 
     @classmethod
     def check_if_called_help(cls, argv) -> bool:
+        """
+        Check if user called help command and print instructions if true.
+        """
         try:
             if argv[1] == cls.HELP_COMMAND:
                 print(
@@ -128,8 +143,10 @@ class SubCommand:
         return f'{[member.value for member in cls.Tasks]}'
 
 
-@timer
 async def run(pages, methods):
+    """
+    Execute pages asynchronously with their own tasks in the order sent by user.
+    """
     for method in methods:
         thread_run = []
         for page in pages:
