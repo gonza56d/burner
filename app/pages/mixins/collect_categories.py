@@ -7,17 +7,18 @@ from settings import CATEGORIES_STORAGE_PATH, get_csv_writer
 
 
 class CollectCategoriesMixin:
-    """
-    Mixin to inherit in page models.
+    """Mixin to inherit in page models.
     
     Provides the possibility of collecting and storing categories from the
     subclass' indicated page.
     """
 
     def get_categories(self) -> List[PageCategory]:
-        """
-        Get nested categories from furnitures categories in a list of
-        PageCategory models.
+        """Get nested categories from furnitures categories.
+
+        Return
+        ------
+        List[PageCategory] : Categories found.
         """
 
         categories = self.furnitures_categories
@@ -38,8 +39,7 @@ class CollectCategoriesMixin:
         return self.categories
 
     def store_categories(self) -> None:
-        """
-        Store today's Page categories in CSV.
+        """Store today's page categories in CSV.
 
         HEADS UP! It will overwrite a file if it has the same name. Name are
         created with today's date.
