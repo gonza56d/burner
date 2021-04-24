@@ -9,6 +9,7 @@ from typing import List
 
 # App
 from pages import FalabellaPage, SodimacPage
+from utils.decorators import timer
 from utils.exceptions import CommandExecutionException
 
 
@@ -182,6 +183,7 @@ class SubCommand:
         return f'{[member.value for member in cls.Tasks]}'
 
 
+@timer
 def run(pages: List[str], methods: List[str]) -> None:
     """Execute pages with their own tasks in the order sent by user.
 
