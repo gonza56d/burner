@@ -1,13 +1,16 @@
+"""
+Classes with common tests cases to inherit in unittest.TestCase subclasses.
+"""
+
 # Python
 from typing import Generator, List
 
 # App
-from models import PageCategory, PageProduct
+from models import PageCategory
 
 
 class CommonTestsMixin:
-    """
-    Common web pages data collection unit tests.
+    """Common web pages data collection unit tests.
 
     Perform the following validations:
     * Categories from page with their attributes.
@@ -17,15 +20,21 @@ class CommonTestsMixin:
     """
 
     def test_get_categories(self) -> None:
+        """Validate that categories are properly obtained.
+        """
         page_categories = self.page.get_categories()
         self.validate_categories(page_categories)
 
     def test_store_categories(self) -> None:
+        """Validate that categories are stored and read properly.
+        """
         self.page.store_categories()
         stored_categories = self.page.get_latest_categories()
         self.validate_categories(stored_categories)
 
     def validate_categories(self, categories: List[PageCategory]) -> None:
+        """Ensure that categories have all the expected data.
+        """
         self.assertGreater(
             len(categories), 0, "No categories where found"
         )
@@ -36,15 +45,21 @@ class CommonTestsMixin:
             self.assertIsNotNone(category.category_id, "Category didn't have an ID")
 
     def test_get_products(self) -> None:
+        """Validate that products are properly obtained.
+        """
         page_products = self.page.get_products()
         self.validate_products(page_products)
 
     def test_store_products(self) -> None:
+        """Validate that products are stored and read properly.
+        """
         self.page.store_products()
         stored_products = self.page.get_latest_products()
         self.validate_products(stored_products)
 
     def validate_products(self, products: Generator) -> None:
+        """Ensure that products have all the expected data.
+        """
         count = 0
         while True:
             try:

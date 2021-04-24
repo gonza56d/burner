@@ -1,3 +1,7 @@
+"""
+Sodimac tests.
+"""
+
 # Python
 from unittest import TestCase
 
@@ -7,9 +11,10 @@ from .common import CommonTestsMixin
 
 
 class TestSodimacPage(TestCase, CommonTestsMixin):
-    """
-    Sodimac web page unit tests.
+    """Sodimac web page unit tests.
     """
 
     def setUp(self) -> None:
+        """Test case set up. Indicate page attribute to run tests.
+        """
         self.page = SodimacPage()
