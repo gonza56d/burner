@@ -1,3 +1,7 @@
+"""
+Sodimac Selenium utilities.
+"""
+
 # Python
 from typing import Generator
 
@@ -11,8 +15,7 @@ from pages import BaseSeleniumUtils
 
 
 class SodimacSeleniumUtils(BaseSeleniumUtils):
-    """
-    Sodimac web page selenium utils.
+    """Sodimac web page selenium utils.
 
     Utilities for scenarios where a browser is necessary to collect specific
     data. E.g. data that is lazy and won't be in DOM at the initial request.
@@ -41,9 +44,12 @@ class SodimacSeleniumUtils(BaseSeleniumUtils):
 
     @property
     def annoying_button(self) -> WebElement:
-        """
-        Sometimes a notification is displayed, preventing us to click
-        the desired category button.
+        """Sometimes a notification is displayed randomly, preventing driver to
+        click the desired category button.
+
+        Returns
+        -------
+        WebElement : Notification button if appeared.
         """
         try:
             return self.driver.find_element(
@@ -54,6 +60,12 @@ class SodimacSeleniumUtils(BaseSeleniumUtils):
 
     @property
     def furnitures_category(self) -> WebElement:
+        """Close notification button if appeared and find furnitures category.
+
+        Return
+        ------
+        WebElement : Furnitures category web element.
+        """
         annoying_button = self.annoying_button
         if annoying_button is not None:
             annoying_button.click()
@@ -62,6 +74,12 @@ class SodimacSeleniumUtils(BaseSeleniumUtils):
         )
 
     def get_furnitures_categories(self) -> Generator:
+        """Click on furnitures category and find its nested sub categories.
+
+        Return
+        ------
+        Generator : yield from categories found.
+        """
         self.furnitures_category.click()
         furnitures_categories = self.driver.find_elements(
             *SodimacSeleniumUtils.BY_FURNITURES_CATEGORIES

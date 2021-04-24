@@ -13,8 +13,7 @@ class SodimacPage(
         CollectCategoriesMixin,
         CollectProductsMixin
     ):
-    """
-    Page model that to collect and store data from Sodimac web page.
+    """Page model to collect and store data from Sodimac web page.
     """
 
     PAGE_NAME = 'Sodimac'
