@@ -1,3 +1,7 @@
+"""
+Falabella Selenium utilities.
+"""
+
 # Python
 from typing import Generator
 
@@ -11,8 +15,7 @@ from pages import BaseSeleniumUtils
 
 
 class FalabellaSeleniumUtils(BaseSeleniumUtils):
-    """
-    Falabella web page selenium utils.
+    """Falabella web page selenium utils.
 
     Utilities for scenarios where a browser is necessary to collect specific
     data. E.g. data that is lazy and won't be in DOM at the initial request.
@@ -39,6 +42,13 @@ class FalabellaSeleniumUtils(BaseSeleniumUtils):
 
     @property
     def furnitures_category(self) -> WebElement:
+        """Click on furnitures category and return its nested subcategories
+        in the page.
+
+        Return
+        ------
+        WebElement : Furnitures category web element.
+        """
         categories_button = self.driver.find_element(
             *FalabellaSeleniumUtils.BY_CATEGORIES_BUTTON
         )
@@ -48,17 +58,19 @@ class FalabellaSeleniumUtils(BaseSeleniumUtils):
         )
 
     def hover_on_furnitures_category(self) -> None:
-        """
-        Hover on furnitures category in order to display its nested categories.
+        """Hover on furnitures category in order to display its
+        nested categories.
         """
         hover = ActionChains(self.driver)\
             .move_to_element(self.furnitures_category)
         hover.perform()
 
     def get_furnitures_categories(self) -> Generator:
-        """
-        Find and return a generator of furnitures nested categories web
-        elements.
+        """Find furnitures nested categories web elements.
+
+        Return
+        ------
+        Generator : yield from furnitures categories found.
         """
         self.hover_on_furnitures_category()
         furnitures_categories = self.driver.find_elements(
