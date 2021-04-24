@@ -29,3 +29,31 @@ You can use the **bs4** module.
 ### Goal
 
 Run the script in a docker container every day.
+
+
+# How to run
+
+## Using manger
+
+In order to run our scrapper application, we have to execute commands<br>
+from the manager (manage.py) like this.
+
+`$ python3 manage.py --pages='$PAGE_1 $PAGE_2' --tasks='$TASK_1 $TASK_2 $TASK_3 $TASK_N'`
+
+And each task will be executed (in order) for every page.<br>
+
+For example:
+
+`$ python3 manage.py --pages='falabella sodimac' --tasks='collectcategories collectproducts'`
+
+So that we will first scrap categories, and then products, from both Falabella and Sodimac.<br>
+
+## Available pages:
+
+* falabella
+* sodimac
+
+## Available tasks:
+
+* collectcategories
+* collectproducts
