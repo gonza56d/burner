@@ -19,8 +19,7 @@ from settings import (
 
 
 class CollectProductsMixin:
-    """
-    Mixin to inherit in page models.
+    """Mixin to inherit in page models.
     
     Provides the possibility of collecting and storing products from the
     subclass' indicated page.
@@ -28,8 +27,20 @@ class CollectProductsMixin:
 
     @staticmethod
     def get_dates_as_string(files: List[str], replace_lookup: str) -> List[str]:
-        """
-        Collect and return all the dates as string from the files' names.
+        """Collect and return all the dates as string from the files' names.
+
+        Parameters
+        ----------
+        files : List[str]
+            Collection to get the dates from.
+        
+        replace_lookup : str
+            Part of the name in the files to remove together with file
+            extension, leaving only the date in the filename.
+        
+        Return
+        ------
+        List[str] : Collection of the obtained dates.
         """
         str_dates = []
         for file in files:
@@ -41,8 +52,16 @@ class CollectProductsMixin:
 
     @staticmethod
     def get_str_dates_as_dates(str_dates: List[str]) -> List[date]:
-        """
-        Convert all the string dates to dates and return it.
+        """Convert all the given string dates to Python date type.
+
+        Parameters
+        ----------
+        str_dates : List[str]
+            Collection of dates to convert.
+        
+        Return
+        ------
+        List[date] : Convertion results.
         """
         dates = []
         for str_date in str_dates:
@@ -52,17 +71,42 @@ class CollectProductsMixin:
 
     @staticmethod
     def get_file_with_date(files: List[str], file_date: date) -> str:
+        """Filter a file in the list with the given date.
+
+        Parameters
+        ----------
+        files : List[str]
+            Collection of filenames to search from.
+
+        file_date : date
+            Date value to filter the file.
+        
+        Return
+        ------
+        str : First file match.
+        None : No file with given date found.
+        """
         last_file = None
         for file in files:
             if str(file_date) in file:
                 last_file = file
+                break
         return last_file
 
-    def get_files(self, file_lookup: str, storage_path) -> str:
-        """
-        Filter and return CSV files filtering by file_lookup.
+    def get_files(self, file_lookup: str, storage_path: str) -> List[str]:
+        """Find and return CSV files filtering by file_lookup.
 
-        :param file_lookup: part of name to filter files.
+        Parameters
+        ----------
+        file_lookup : str
+            Part of name to filter accepted files.
+        
+        storage_path : str
+            Path where to find the desired files.
+        
+        Return
+        ------
+        List[str] : Result of filtered files.
         """
         all_categories_files = [
             f for f in listdir(storage_path) 
@@ -74,11 +118,20 @@ class CollectProductsMixin:
                 categories_files.append(file)
         return categories_files
 
-    def get_latest_file(self, file_lookup: str, storage_path) -> str:
-        """
-        Get the CSV file with the latest date and file_lookup in its filename.
+    def get_latest_file(self, file_lookup: str, storage_path: str) -> str:
+        """Get the CSV file with the latest date and file_lookup in its filename.
 
-        :param file_lookup: part of name filter files.
+        Parameters
+        ----------
+        file_lookup : str
+            Part of name to filter the files before comparing their dates.
+
+        storage_path : str
+            Path where to find the desired file.
+        
+        Return
+        ------
+        str : Filename of the file with the given name lookup and latest date.
         """
         files = self.get_files(file_lookup, storage_path)
         str_dates = self.get_dates_as_string(files, file_lookup)
@@ -88,8 +141,11 @@ class CollectProductsMixin:
         return last_categories_file
 
     def get_latest_products(self) -> Generator:
-        """
-        Get products from latest CSV file.
+        """Get products from latest CSV file.
+
+        Return
+        ------
+        Generator : yield from products in the CSV file.
         """
         products = []
         last_products_file = self.get_latest_file(
@@ -114,8 +170,11 @@ class CollectProductsMixin:
         yield from products
 
     def get_latest_categories(self) -> List[PageCategory]:
-        """
-        Get categories from latest CSV file.
+        """Get categories from latest CSV file.
+
+        Return
+        ------
+        List[PageCategory] : Categories in the CSV file.
         """
         categories = []
         last_categories_file = self.get_latest_file(
@@ -151,8 +210,16 @@ class CollectProductsMixin:
         yield from products
 
     def get_category_products(self, category: PageCategory) -> Generator:
-        """
-        Get products from category page.
+        """Get products from category page.
+
+        Parameters
+        ----------
+        category : PageCategory
+            Category page where to find products.
+
+        Return
+        ------
+        Generator : yield from products found in the given category.
         """
         category_products = []
         request = requests.get(category.category_url)
@@ -170,9 +237,12 @@ class CollectProductsMixin:
         yield from category_products
 
     def get_products(self) -> Generator:
-        """
-        Get products from furnitures category in a generator of
-        PageProduct objects.
+        """Get products from furnitures category in a generator of PageProduct
+        objects.
+
+        Return
+        ------
+        Generator : yield from products found.
         """
 
         products = self.furnitures_products
@@ -195,8 +265,7 @@ class CollectProductsMixin:
         yield from self.products
 
     def store_products(self) -> None:
-        """
-        Store today's category products in CSV.
+        """Store today's category products in CSV.
 
         HEADS UP! It will overwrite a file if it has the same name. Name are
         created with today's date.
