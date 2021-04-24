@@ -7,10 +7,10 @@ from unittest import TestCase
 
 # App
 from pages import FalabellaPage
-from .common import CommonTestsMixin
+from .common import CategoriesTestsMixin, ProductsTestsMixin
 
 
-class TestFalabellaPage(TestCase, CommonTestsMixin):
+class TestFalabellaPage(TestCase, CategoriesTestsMixin, ProductsTestsMixin):
     """Falabella web page unit tests.
     """
 

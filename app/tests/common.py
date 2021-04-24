@@ -9,14 +9,12 @@ from typing import Generator, List
 from models import PageCategory
 
 
-class CommonTestsMixin:
-    """Common web pages data collection unit tests.
+class CategoriesTestsMixin:
+    """Common web pages categories data collection unit tests.
 
     Perform the following validations:
     * Categories from page with their attributes.
     * Categories from CSV with their attributes.
-    * Products from page with their attributes.
-    * Products from CSV with their attributes.
     """
 
     def test_get_categories(self) -> None:
@@ -43,6 +41,15 @@ class CommonTestsMixin:
             self.assertIsNotNone(category.category_name, "Category didn't have a name")
             self.assertIsNotNone(category.category_url, "Category didn't have a url")
             self.assertIsNotNone(category.category_id, "Category didn't have an ID")
+
+
+class ProductsTestsMixin:
+    """Common web pages products data collection unit tests.
+
+    Perform the following validations:
+    * Products from page with their attributes.
+    * Products from CSV with their attributes.
+    """
 
     def test_get_products(self) -> None:
         """Validate that products are properly obtained.

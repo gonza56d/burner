@@ -7,10 +7,10 @@ from unittest import TestCase
 
 # App
 from pages import SodimacPage
-from .common import CommonTestsMixin
+from .common import CategoriesTestsMixin, ProductsTestsMixin
 
 
-class TestSodimacPage(TestCase, CommonTestsMixin):
+class TestSodimacPage(TestCase, CategoriesTestsMixin, ProductsTestsMixin):
     """Sodimac web page unit tests.
     """
 

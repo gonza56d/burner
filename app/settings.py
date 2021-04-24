@@ -4,7 +4,6 @@ Project variable settings.
 
 # Python
 import csv
-from csv import _writer, _reader
 from io import TextIOWrapper
 import platform
 
@@ -34,7 +33,7 @@ CATEGORIES_STORAGE_PATH = STORAGE_PATH + 'categories/'
 PRODUCTS_STORAGE_PATH = STORAGE_PATH + 'products/'
 
 
-def get_csv_writer(file: TextIOWrapper) -> _writer:
+def get_csv_writer(file: TextIOWrapper):
     """Get app's CSV writer with the proper configurations.
 
     Parameters
@@ -51,7 +50,7 @@ def get_csv_writer(file: TextIOWrapper) -> _writer:
     )
 
 
-def get_csv_reader(file: TextIOWrapper) -> _reader:
+def get_csv_reader(file: TextIOWrapper):
     """Get app's CSV reader with the proper configurations.
 
     Parameters
