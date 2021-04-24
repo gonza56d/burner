@@ -1,4 +1,6 @@
-"""Handle scripts with execution command lines."""
+"""
+Handle scripts with execution command lines.
+"""
 
 # Python
 from enum import Enum

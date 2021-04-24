@@ -4,12 +4,17 @@ Project variable settings.
 
 # Python
 import csv
+from csv import _writer, _reader
+from io import TextIOWrapper
 import platform
 
 
-def get_selenium_driver_path():
-    """
-    Return either Linux or Mac chromedriver path regarding platform system.
+def get_selenium_driver_path() -> str:
+    """Return either Linux or Mac chromedriver path regarding platform system.
+
+    Return
+    ------
+    str : Path to the Selenium Chromedriver for the platform system.
     """
     if platform.system().lower() == 'darwin':
         return './mac_chromedriver'
@@ -29,17 +34,33 @@ CATEGORIES_STORAGE_PATH = STORAGE_PATH + 'categories/'
 PRODUCTS_STORAGE_PATH = STORAGE_PATH + 'products/'
 
 
-def get_csv_writer(file):
-    """
-    Return app's CSV writer with the proper configurations.
+def get_csv_writer(file: TextIOWrapper) -> _writer:
+    """Get app's CSV writer with the proper configurations.
+
+    Parameters
+    ----------
+    file : TextIOWrapper
+        File to get the writer with.
+
+    Return
+    ------
+    _writer : CSV writer.
     """
     return csv.writer(
         file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL
     )
 
 
-def get_csv_reader(file):
-    """
-    Return app's CSV reader with the proper configurations.
+def get_csv_reader(file: TextIOWrapper) -> _reader:
+    """Get app's CSV reader with the proper configurations.
+
+    Parameters
+    ----------
+    file : TextIOWrapper
+        File to get the reader with.
+
+    Return
+    ------
+    _reader : CSV reader.
     """
     return csv.reader(file, delimiter=',')
