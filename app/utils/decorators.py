@@ -1,11 +1,25 @@
+"""
+Project decorators.
+"""
+
 # Python
 import functools
 import time
+from typing import Callable
 
 
-def timer(fun):
-    """
-    Display in terminal how much time it took to execute any function.
+def timer(fun: Callable) -> Callable:
+    """Decorator to display in terminal how much time it took to execute the
+    decorated function.
+
+    Parameters
+    ----------
+    fun : Callable
+        Function or method to wrap and measure execution time.
+
+    Return
+    ------
+    wrapper : Wrapper to serve as a decorator.
     """
     @functools.wraps(fun)
     def wrapper(*args, **kwargs):
