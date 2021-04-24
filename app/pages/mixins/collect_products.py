@@ -194,7 +194,7 @@ class CollectProductsMixin:
                 break
         yield from self.products
 
-    async def store_products(self) -> None:
+    def store_products(self) -> None:
         """
         Store today's category products in CSV.
 

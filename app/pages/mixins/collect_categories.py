@@ -14,7 +14,7 @@ class CollectCategoriesMixin:
     subclass' indicated page.
     """
 
-    async def get_categories(self) -> List[PageCategory]:
+    def get_categories(self) -> List[PageCategory]:
         """
         Get nested categories from furnitures categories in a list of
         PageCategory models.
@@ -37,7 +37,7 @@ class CollectCategoriesMixin:
                 break
         return self.categories
 
-    async def store_categories(self) -> None:
+    def store_categories(self) -> None:
         """
         Store today's Page categories in CSV.
 
@@ -54,7 +54,7 @@ class CollectCategoriesMixin:
 
             file = get_csv_writer(file)
             file.writerow([header for header in PageCategory.CSV_HEADERS])
-            for category in await self.get_categories():
+            for category in self.get_categories():
                 file.writerow([
                     category.page_name,
                     category.category_name,

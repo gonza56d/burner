@@ -7,9 +7,6 @@ from enum import Enum
 import sys
 from typing import List
 
-# AsyncIO
-import asyncio
-
 # App
 from pages import FalabellaPage, SodimacPage
 from utils.exceptions import CommandExecutionException
@@ -144,18 +141,16 @@ class SubCommand:
         return f'{[member.value for member in cls.Tasks]}'
 
 
-async def run(pages: List[str], methods: List[str]) -> None:
+def run(pages: List[str], methods: List[str]) -> None:
     """
-    Execute pages asynchronously with their own tasks in the order sent by user.
+    Execute pages with their own tasks in the order sent by user.
     """
     for method in methods:
-        thread_run = []
         for page in pages:
-            thread_run.append(f'{page}().{method}')
-        await asyncio.gather(*[eval(_run) for _run in thread_run])
+            eval(f'{page}().{method}')
 
 
-async def main() -> None:
+def main() -> None:
     """
     Handle how to execute tasks from command line.
     """
@@ -165,8 +160,8 @@ async def main() -> None:
         return
     pages = SubCommand.pages_to_page_objects(sub_command.pages)
     methods = SubCommand.tasks_to_page_methods(sub_command.tasks)
-    await run(pages, methods)
+    run(pages, methods)
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()
