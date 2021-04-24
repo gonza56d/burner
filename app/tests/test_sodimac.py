@@ -2,7 +2,7 @@
 from unittest import TestCase
 
 # App
-from app.pages import SodimacPage
+from pages import SodimacPage
 from .common import CommonTestsMixin
 
 

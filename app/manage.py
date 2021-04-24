@@ -11,8 +11,8 @@ from typing import List
 import asyncio
 
 # App
-from app.pages import FalabellaPage, SodimacPage
-from app.utils.exceptions import CommandExecutionException
+from pages import FalabellaPage, SodimacPage
+from utils.exceptions import CommandExecutionException
 
 
 class SubCommand:

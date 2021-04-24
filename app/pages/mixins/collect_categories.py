@@ -2,8 +2,8 @@
 from typing import List
 
 # App
-from app.models import PageCategory
-from app.settings import CATEGORIES_STORAGE_PATH, get_csv_writer
+from models import PageCategory
+from settings import CATEGORIES_STORAGE_PATH, get_csv_writer
 
 
 class CollectCategoriesMixin:

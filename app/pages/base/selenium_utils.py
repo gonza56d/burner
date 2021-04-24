@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from selenium.webdriver import Chrome
 
 # App
-from app.settings import SELENIUM_DRIVER_PATH
+from settings import SELENIUM_DRIVER_PATH
 
 
 class BaseSeleniumUtils(ABC):

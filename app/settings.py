@@ -12,9 +12,9 @@ def get_selenium_driver_path():
     Return either Linux or Mac chromedriver path regarding platform system.
     """
     if platform.system().lower() == 'darwin':
-        return './app/mac_chromedriver'
+        return './mac_chromedriver'
     else:
-        return './app/linux_chromedriver'
+        return './linux_chromedriver'
 
 
 # Selenium webdriver path
@@ -22,7 +22,7 @@ def get_selenium_driver_path():
 SELENIUM_DRIVER_PATH = get_selenium_driver_path()
 
 # Data storage (CSV files) path
-STORAGE_PATH = './app/data/'
+STORAGE_PATH = './data/'
 
 CATEGORIES_STORAGE_PATH = STORAGE_PATH + 'categories/'
 

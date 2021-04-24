@@ -3,8 +3,8 @@ from datetime import date
 from typing import Generator
 
 # App
-from app.pages import BasePage
-from app.pages.mixins import CollectCategoriesMixin, CollectProductsMixin
+from pages import BasePage
+from pages.mixins import CollectCategoriesMixin, CollectProductsMixin
 from .selenium_utils import FalabellaSeleniumUtils
 
 

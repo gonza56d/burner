@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
 # App
-from app.pages import BaseSeleniumUtils
+from pages import BaseSeleniumUtils
 
 
 class FalabellaSeleniumUtils(BaseSeleniumUtils):

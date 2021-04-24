@@ -9,8 +9,8 @@ from typing import List, Generator
 from bs4 import BeautifulSoup
 
 # App
-from app.models import PageCategory, PageProduct
-from app.settings import (
+from models import PageCategory, PageProduct
+from settings import (
     CATEGORIES_STORAGE_PATH,
     PRODUCTS_STORAGE_PATH,
     get_csv_reader,

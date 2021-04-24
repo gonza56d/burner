@@ -2,7 +2,7 @@
 from typing import Generator, List
 
 # App
-from app.models import PageCategory, PageProduct
+from models import PageCategory, PageProduct
 
 
 class CommonTestsMixin:

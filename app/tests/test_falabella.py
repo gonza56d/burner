@@ -2,7 +2,7 @@
 from unittest import TestCase
 
 # App
-from app.pages import FalabellaPage
+from pages import FalabellaPage
 from .common import CommonTestsMixin
 
 
