@@ -48,12 +48,12 @@ For example:
 
 So that we will first scrap categories, and then products, from both Falabella and Sodimac.<br>
 
-## Available pages:
+### Available pages:
 
 * falabella
 * sodimac
 
-## Available tasks:
+### Available tasks:
 
 * collectcategories
 * collectproducts
