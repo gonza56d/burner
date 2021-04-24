@@ -32,6 +32,11 @@ class CategoriesTestsMixin:
 
     def validate_categories(self, categories: List[PageCategory]) -> None:
         """Ensure that categories have all the expected data.
+
+        Parameters
+        ----------
+        categories : List[PageCategory]
+            Categories to validate their data.
         """
         self.assertGreater(
             len(categories), 0, "No categories where found"
@@ -66,6 +71,11 @@ class ProductsTestsMixin:
 
     def validate_products(self, products: Generator) -> None:
         """Ensure that products have all the expected data.
+
+        Parameters
+        ----------
+        products : Generator
+            Products to validate their data.
         """
         count = 0
         while True:
