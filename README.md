@@ -35,7 +35,7 @@ Run the script in a docker container every day.
 
 ## Using manger
 
-In order to run our scrapper application, we have to execute commands<br>
+In order to run our scrapper application, we have to execute commands
 from the manager (manage.py) like this.
 
 `$ python3 manage.py --pages='$PAGE_1 $PAGE_2' --tasks='$TASK_1 $TASK_2 $TASK_3 $TASK_N'`
