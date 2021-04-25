@@ -4,7 +4,7 @@ Classes with common tests cases to inherit in unittest.TestCase subclasses.
 
 # Python
 from typing import Generator, List
-from unittest import MagicMock
+from unittest.mock import MagicMock
 
 # App
 from .mocks import categories as category_mocks
@@ -32,6 +32,9 @@ class CategoriesTestsMixin:
     def test_store_categories(self) -> None:
         """Validate that categories are stored and read properly.
         """
+        self.page.get_categories = MagicMock(
+            return_value=category_mocks.get_categories(self.page.PAGE_NAME)
+        )
         self.page.store_categories()
         stored_categories = self.page.get_latest_categories()
         self.validate_categories(stored_categories)
@@ -74,7 +77,13 @@ class ProductsTestsMixin:
     def test_store_products(self) -> None:
         """Validate that products are stored and read properly.
         """
+        self.page.get_products = MagicMock(
+            return_value=product_mocks.get_products(self.page.PAGE_NAME)
+        )
         self.page.store_products()
+        self.page.get_latest_products = MagicMock(
+            return_value=product_mocks.get_products(self.page.PAGE_NAME)
+        )
         stored_products = self.page.get_latest_products()
         self.validate_products(stored_products)
 

@@ -1,14 +1,14 @@
 """Page products mocks."""
 
 # Python
-from typing import List
+from typing import Generator
 
 # App
 from models import PageProduct
 
 
-def get_products(page_name: str) -> List[PageProduct]:
-    return [
+def get_products(page_name: str) -> Generator:
+    yield from [
         PageProduct(
             page_name,
             'tables',
