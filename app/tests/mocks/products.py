@@ -8,6 +8,17 @@ from models import PageProduct
 
 
 def get_products(page_name: str) -> Generator:
+    """Get mocked products to run unit tests.
+
+    Parameters
+    ----------
+    page_name : str
+        Name of the page to set as attribute in the mocked products.
+    
+    Return
+    ------
+    Generator : Yield from mocked products for unit testing.
+    """
     yield from [
         PageProduct(
             page_name,
