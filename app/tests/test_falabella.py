@@ -27,12 +27,10 @@ class TestFalabellaPage(TestCase, CategoriesTestsMixin, ProductsTestsMixin):
         didn't create any file (hence didn't set the filename attribute).
         """
         try:
-            print('categories_filename:', self.categories_filename)
             os.remove(self.categories_filename)
         except AttributeError:
             pass
         try:
-            print('products_filename:', self.products_filename)
             os.remove(self.products_filename)
         except AttributeError:
             pass
