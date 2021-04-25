@@ -272,7 +272,7 @@ class CollectProductsMixin:
 
         Return
         ------
-        str : Filename of the created CSV with the categories.
+        str : Filename of the created CSV with the products.
         """
 
         print(f'Collecting and storing products from {self.__class__.__name__}...')
