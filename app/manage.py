@@ -47,6 +47,15 @@ class SubCommand:
         ------
         List[str] : Collection of method expressions.
         """
+
+        # mauricio: Try more complex list Compr.
+        # return [
+        #         'store_categories' if task.lower() == SubCommand.Tasks.COLLECTCATEGORIES.value 
+        #         else 'store_products' if task.lower() == SubCommand.Tasks.COLLECTPRODUCTS.value 
+        #         else '' 
+        #         for task in tasks
+        #     ]
+
         page_methods = []
         for task in tasks:
             if task.lower() == SubCommand.Tasks.COLLECTCATEGORIES.value:

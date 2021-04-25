@@ -222,6 +222,7 @@ class CollectProductsMixin:
         Generator : yield from products found in the given category.
         """
         category_products = []
+        # mauricio: Always usa a try Exc in requests, a timeout and a status code validation.
         request = requests.get(category.category_url)
         self.soup = BeautifulSoup(request.text, 'html.parser')
         for page_product in self.get_products_in_page():
@@ -246,6 +247,9 @@ class CollectProductsMixin:
         """
 
         products = self.furnitures_products
+
+        # mauricio: Here we are doing an expensive work, using list iteration and not
+        # taking advantage of the generator.
         self.products = []
         while True:
             try:
