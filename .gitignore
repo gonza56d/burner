@@ -131,3 +131,6 @@ dmypy.json
 # VS Code / PyCharm settings folders
 .vscode/
 .idea/
+
+# Collected data
+.app/data/
