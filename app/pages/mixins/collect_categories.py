@@ -38,19 +38,22 @@ class CollectCategoriesMixin:
                 break
         return self.categories
 
-    def store_categories(self) -> None:
+    def store_categories(self) -> str:
         """Store today's page categories in CSV.
 
         HEADS UP! It will overwrite a file if it has the same name. Name are
         created with today's date.
+
+        Return
+        ------
+        str : Filename of the created CSV with the categories.
         """
 
         print(f'Collecting and storing categories from {self.__class__.__name__}...')
 
-        with open(
-            CATEGORIES_STORAGE_PATH + self.get_categories_storage_filename(),
-            mode='w'
-        ) as file:
+        filename = CATEGORIES_STORAGE_PATH + self.get_categories_storage_filename()
+
+        with open(filename, mode='w') as file:
 
             file = get_csv_writer(file)
             file.writerow([header for header in PageCategory.CSV_HEADERS])
@@ -61,4 +64,6 @@ class CollectCategoriesMixin:
                     category.category_url,
                     category.category_id
                 ])
+
         print(f'Finished categories from {self.__class__.__name__}.')
+        return filename

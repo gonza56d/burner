@@ -35,7 +35,8 @@ class CategoriesTestsMixin:
         self.page.get_categories = MagicMock(
             return_value=category_mocks.get_categories(self.page.PAGE_NAME)
         )
-        self.page.store_categories()
+        # Save a reference to created file in order to delete on test tear down
+        self.categories_filename = self.page.store_categories()
         stored_categories = self.page.get_latest_categories()
         self.validate_categories(stored_categories)
 
@@ -80,7 +81,8 @@ class ProductsTestsMixin:
         self.page.get_products = MagicMock(
             return_value=product_mocks.get_products(self.page.PAGE_NAME)
         )
-        self.page.store_products()
+        # Save a reference to created file in order to delete on test tear down
+        self.products_filename = self.page.store_products()
         stored_products = self.page.get_latest_products()
         self.validate_products(stored_products)
 

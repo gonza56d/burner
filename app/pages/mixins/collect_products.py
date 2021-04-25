@@ -264,19 +264,22 @@ class CollectProductsMixin:
                 break
         yield from self.products
 
-    def store_products(self) -> None:
+    def store_products(self) -> str:
         """Store today's category products in CSV.
 
         HEADS UP! It will overwrite a file if it has the same name. Name are
         created with today's date.
+
+        Return
+        ------
+        str : Filename of the created CSV with the categories.
         """
 
         print(f'Collecting and storing products from {self.__class__.__name__}...')
 
-        with open(
-            PRODUCTS_STORAGE_PATH + self.get_products_storage_filename(),
-            mode='w'
-        ) as file:
+        filename = PRODUCTS_STORAGE_PATH + self.get_products_storage_filename()
+
+        with open(filename, mode='w') as file:
 
             file = get_csv_writer(file)
             file.writerow([header for header in PageProduct.CSV_HEADERS])
@@ -294,4 +297,6 @@ class CollectProductsMixin:
                     ])
                 except StopIteration:
                     break
+
         print(f'Finished products from {self.__class__.__name__}.')
+        return filename
