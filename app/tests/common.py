@@ -71,7 +71,7 @@ class ProductsTestsMixin:
         self.page.get_products = MagicMock(
             return_value=product_mocks.get_products(self.page.PAGE_NAME)
         )
-        page_products = self.page.get_products()
+        page_products = self.page.get_products(key='value')
         self.validate_products(page_products)
 
     def test_store_products(self) -> None:
@@ -84,7 +84,7 @@ class ProductsTestsMixin:
         self.page.get_latest_products = MagicMock(
             return_value=product_mocks.get_products(self.page.PAGE_NAME)
         )
-        stored_products = self.page.get_latest_products()
+        stored_products = self.page.get_latest_products(key='value')
         self.validate_products(stored_products)
 
     def validate_products(self, products: Generator) -> None:
