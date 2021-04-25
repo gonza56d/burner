@@ -4,6 +4,7 @@ Handle scripts with execution command lines.
 
 # Python
 from enum import Enum
+from multiprocessing import Process
 import sys
 from typing import List
 
@@ -49,9 +50,9 @@ class SubCommand:
         page_methods = []
         for task in tasks:
             if task.lower() == SubCommand.Tasks.COLLECTCATEGORIES.value:
-                page_methods.append('store_categories()')
+                page_methods.append('store_categories')
             elif task.lower() == SubCommand.Tasks.COLLECTPRODUCTS.value:
-                page_methods.append('store_products()')
+                page_methods.append('store_products')
         return page_methods
 
     @staticmethod
@@ -196,8 +197,16 @@ def run(pages: List[str], methods: List[str]) -> None:
         Expressions of page methods to run.
     """
     for method in methods:
+        this_iteration = []
         for page in pages:
-            eval(f'{page}().{method}')
+            this_iteration.append(f'{page}().{method}')  # E.G. FalabellaPage().store_products
+        processes = []
+        for process in this_iteration:  # Gather the results in a List[Process]
+            processes.append(Process(target=eval(process)))
+        for process in processes:
+            process.start()
+        for process in processes:
+            process.join()
 
 
 def main() -> None:
