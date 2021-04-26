@@ -133,4 +133,4 @@ dmypy.json
 .idea/
 
 # Collected data
-.app/data/
+app/data/
