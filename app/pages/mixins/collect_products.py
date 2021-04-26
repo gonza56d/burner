@@ -3,6 +3,7 @@ from datetime import date
 from os import listdir
 from os.path import isfile, join
 import requests
+from requests.exceptions import Timeout
 from typing import List, Generator
 
 # BeautifulSoup
@@ -223,18 +224,21 @@ class CollectProductsMixin:
         """
         category_products = []
         # mauricio: Always usa a try Exc in requests, a timeout and a status code validation.
-        request = requests.get(category.category_url)
-        self.soup = BeautifulSoup(request.text, 'html.parser')
-        for page_product in self.get_products_in_page():
-            product = PageProduct(
-                page_name=self.get_page_name(),
-                category_id=category.category_id,
-                product_id=self.get_product_id_lookup(page_product),
-                product_url=self.get_product_url_lookup(page_product),
-                product_name=self.get_product_name_lookup(page_product),
-                product_price=self.get_product_price_lookup(page_product)
-            )
-            category_products.append(product)
+        try:
+            request = requests.get(category.category_url, timeout=15)
+            self.soup = BeautifulSoup(request.text, 'html.parser')
+            for page_product in self.get_products_in_page():
+                product = PageProduct(
+                    page_name=self.get_page_name(),
+                    category_id=category.category_id,
+                    product_id=self.get_product_id_lookup(page_product),
+                    product_url=self.get_product_url_lookup(page_product),
+                    product_name=self.get_product_name_lookup(page_product),
+                    product_price=self.get_product_price_lookup(page_product)
+                )
+                category_products.append(product)
+        except Timeout:
+            print(f'Get request for {category.category_url} timed out after 15 seconds.')
         yield from category_products
 
     def get_products(self) -> Generator:
