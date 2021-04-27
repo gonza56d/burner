@@ -225,7 +225,7 @@ class CollectProductsMixin:
         category_products = []
         try:
             request = requests.get(category.category_url, timeout=15)
-            if request.status_code is not 200:
+            if request.status_code != 200:
                 raise RequestException
             self.soup = BeautifulSoup(request.text, 'html.parser')
             for page_product in self.get_products_in_page():
