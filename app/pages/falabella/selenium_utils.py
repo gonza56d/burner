@@ -29,7 +29,7 @@ class FalabellaSeleniumUtils(BaseSeleniumUtils):
         'ref-container__21GmW"])[2]'
     )
 
-    BY_FURNITURES_CATEGORY = (By.XPATH, '*//span[text()="Muebles"]')
+    BY_FURNITURES_CATEGORY = (By.XPATH, '*//span[text()="Deco hogar"]')
 
     BY_FURNITURES_CATEGORIES = (
         By.XPATH,
