@@ -245,37 +245,6 @@ class CollectProductsMixin:
         finally:
             yield from category_products
 
-    def get_products(self) -> Generator:
-        """Get products from furnitures category in a generator of PageProduct
-        objects.
-
-        Return
-        ------
-        Generator : yield from products found.
-        """
-
-        products = self.furnitures_products
-
-        # mauricio: Here we are doing an expensive work, using list iteration and not
-        # taking advantage of the generator.
-        self.products = []
-        while True:
-            try:
-                product = next(products)
-                self.products.append(
-                    PageProduct(
-                        page_name=self.get_page_name(),
-                        category_id=product.category_id,
-                        product_id=product.product_id,
-                        product_url=product.product_url,
-                        product_name=product.product_name,
-                        product_price=product.product_price,
-                    )
-                )
-            except StopIteration:
-                break
-        yield from self.products
-
     def store_products(self) -> str:
         """Store today's category products in CSV.
 
@@ -295,7 +264,7 @@ class CollectProductsMixin:
 
             file = get_csv_writer(file)
             file.writerow([header for header in PageProduct.CSV_HEADERS])
-            products = self.get_products()
+            products = self.furnitures_products
             while True:
                 try:
                     product = next(products)
