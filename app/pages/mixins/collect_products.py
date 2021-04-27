@@ -3,7 +3,7 @@ from datetime import date
 from os import listdir
 from os.path import isfile, join
 import requests
-from requests.exceptions import Timeout
+from requests.exceptions import Timeout, RequestException
 from typing import List, Generator
 
 # BeautifulSoup
@@ -223,9 +223,10 @@ class CollectProductsMixin:
         Generator : yield from products found in the given category.
         """
         category_products = []
-        # mauricio: Always usa a try Exc in requests, a timeout and a status code validation.
         try:
             request = requests.get(category.category_url, timeout=15)
+            if request.status_code is not 200:
+                raise RequestException
             self.soup = BeautifulSoup(request.text, 'html.parser')
             for page_product in self.get_products_in_page():
                 product = PageProduct(
@@ -238,8 +239,11 @@ class CollectProductsMixin:
                 )
                 category_products.append(product)
         except Timeout:
-            print(f'Get request for {category.category_url} timed out after 15 seconds.')
-        yield from category_products
+            print(f' * Timeout: Get request for {category.category_url} timed out after 15 seconds.')
+        except RequestException:
+            print(f' * RequestException: Response code for request {category.category_url} was {request.status_code}')
+        finally:
+            yield from category_products
 
     def get_products(self) -> Generator:
         """Get products from furnitures category in a generator of PageProduct
