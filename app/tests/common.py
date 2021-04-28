@@ -69,7 +69,7 @@ class ProductsTestsMixin:
     def test_store_products(self) -> None:
         """Validate that products are stored and read properly.
         """
-        self.page.get_furnitures_products = MagicMock(
+        self.page.get_category_products = MagicMock(
             return_value=product_mocks.get_products(self.page.PAGE_NAME)
         )
         # Save a reference to created file in order to delete on test tear down
