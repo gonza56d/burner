@@ -197,6 +197,16 @@ class CollectProductsMixin:
                 first = False
         return categories
 
+    def get_furnitures_products(self) -> Generator:
+        """Get self.furniture_products so that it's possible to mock the return
+        of this during unit tests.
+
+        Return
+        ------
+        Generator : self.furnitures_products property.
+        """
+        return self.furnitures_products
+
     @property
     def furnitures_products(self) -> Generator:
         products = []
@@ -264,7 +274,7 @@ class CollectProductsMixin:
 
             file = get_csv_writer(file)
             file.writerow([header for header in PageProduct.CSV_HEADERS])
-            products = self.furnitures_products
+            products = self.get_furnitures_products()
             while True:
                 try:
                     product = next(products)

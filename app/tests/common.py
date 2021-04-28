@@ -66,19 +66,10 @@ class ProductsTestsMixin:
     * Products from CSV with their attributes.
     """
 
-    def test_get_products(self) -> None:
-        """Validate that products are properly obtained.
-        """
-        self.page.get_products = MagicMock(
-            return_value=product_mocks.get_products(self.page.PAGE_NAME)
-        )
-        page_products = self.page.get_products(key='value')
-        self.validate_products(page_products)
-
     def test_store_products(self) -> None:
         """Validate that products are stored and read properly.
         """
-        self.page.get_products = MagicMock(
+        self.page.get_furnitures_products = MagicMock(
             return_value=product_mocks.get_products(self.page.PAGE_NAME)
         )
         # Save a reference to created file in order to delete on test tear down
