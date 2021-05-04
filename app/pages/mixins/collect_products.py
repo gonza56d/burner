@@ -148,7 +148,6 @@ class CollectProductsMixin:
         ------
         Generator : yield from products in the CSV file.
         """
-        products = []
         last_products_file = self.get_latest_file(
             self.PRODUCTS_STORAGE_FILENAME,
             PRODUCTS_STORAGE_PATH
@@ -166,9 +165,8 @@ class CollectProductsMixin:
                         product_name=row[4],
                         product_price=row[5],
                     )
-                    products.append(product)
+                    yield product
                 first = False
-        yield from products
 
     def get_latest_categories(self) -> List[PageCategory]:
         """Get categories from latest CSV file.
@@ -222,7 +220,6 @@ class CollectProductsMixin:
         ------
         Generator : yield from products found in the given category.
         """
-        category_products = []
         try:
             request = requests.get(category.category_url, timeout=15)
             if request.status_code != 200:
@@ -237,13 +234,11 @@ class CollectProductsMixin:
                     product_name=self.get_product_name_lookup(page_product),
                     product_price=self.get_product_price_lookup(page_product)
                 )
-                category_products.append(product)
+                yield product
         except Timeout:
             print(f' * Timeout: Get request for {category.category_url} timed out after 15 seconds.')
         except RequestException:
             print(f' * RequestException: Response code for request {category.category_url} was {request.status_code}')
-        finally:
-            yield from category_products
 
     def store_products(self) -> str:
         """Store today's category products in CSV.
