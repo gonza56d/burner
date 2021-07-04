@@ -1,5 +1,5 @@
 """
-Classes with common tests cases with pytest implementation.
+Common tests cases with pytest implementation.
 """
 
 # Python
