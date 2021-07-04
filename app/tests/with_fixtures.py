@@ -45,7 +45,7 @@ class PyTest:
         """Validate that categories are stored and read properly.
         """
         self.page.get_categories = lambda: categories
-        self.categories_filename = self.page.store_categories()
+        self.page.store_categories()
         stored_categories = self.page.get_latest_categories()
         self.validate_categories(stored_categories)
 
@@ -69,7 +69,7 @@ class PyTest:
         """Validate that products are stored and read properly.
         """
         self.page.get_category_products = yield from products
-        self.products_filename = self.page.store_products()
+        self.page.store_products()
         stored_products = self.page.get_latest_products()
         self.validate_products(stored_products)
 
