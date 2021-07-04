@@ -31,6 +31,14 @@ class CategoriesTestsMixin:
     def test_get_categories(self, categories) -> None:
         self.validate_categories(categories)
 
+    def test_store_categories(self, categories) -> None:
+        """Validate that categories are stored and read properly.
+        """
+        self.page.get_categories = lambda: categories
+        self.categories_filename = self.page.store_categories()
+        stored_categories = self.page.get_latest_categories()
+        self.validate_categories(stored_categories)
+
     def validate_categories(self, categories: List[PageCategory]) -> None:
         """Ensure that categories have all the expected data.
 
