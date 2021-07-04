@@ -2,16 +2,12 @@
 Sodimac tests.
 """
 
-# Python
-import os
-# from unittest import TestCase
-
 # App
 from pages import SodimacPage
-from .with_fixtures import CategoriesTestsMixin
+from .with_fixtures import PyTest
 
 
-class TestSodimacPage(CategoriesTestsMixin):
+class TestSodimacPage(PyTest):
     """Sodimac web page unit tests.
     """
 

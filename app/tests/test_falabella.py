@@ -2,16 +2,12 @@
 Falabella tests.
 """
 
-# Python
-import os
-# from unittest import TestCase
-
 # App
 from pages import FalabellaPage
-from .with_fixtures import CategoriesTestsMixin
+from .with_fixtures import PyTest
 
 
-class TestFalabellaPage(CategoriesTestsMixin):
+class TestFalabellaPage(PyTest):
     """Falabella web page unit tests.
     """
 
