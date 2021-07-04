@@ -37,6 +37,8 @@ class PyTest:
         ]
 
     def test_get_categories(self, categories) -> None:
+        """Validate that categories are properly obtained.
+        """
         self.validate_categories(categories)
 
     def test_store_categories(self, categories) -> None:
@@ -49,6 +51,7 @@ class PyTest:
 
     def validate_categories(self, categories: List[PageCategory]) -> None:
         """Ensure that categories have all the expected data.
+        Validate that string attributes are not blank nor None.
 
         Parameters
         ----------
@@ -63,6 +66,8 @@ class PyTest:
             assert category.category_id
 
     def test_store_products(self, products) -> None:
+        """Validate that products are stored and read properly.
+        """
         self.page.get_category_products = yield from products
         self.products_filename = self.page.store_products()
         stored_products = self.page.get_latest_products()
@@ -70,6 +75,8 @@ class PyTest:
 
     def validate_products(self, products: Generator) -> None:
         """Ensure that products have all the expected data.
+        Validate that string attributes are not blank nor None.
+        Validate that numeric attributes are not None.
 
         Parameters
         ----------
